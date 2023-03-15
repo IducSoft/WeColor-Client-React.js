@@ -76,8 +76,11 @@ const SignInForm = () => {
       toast.success(
         "Registered successfully, login to start creating color palettes!",
         {
-          icon: "👏",
           duration: 5000,
+          style: {
+            background: darkmode ? "#333" : "#fff",
+            color: darkmode ? "#fff" : "black",
+          },
         }
       );
     }

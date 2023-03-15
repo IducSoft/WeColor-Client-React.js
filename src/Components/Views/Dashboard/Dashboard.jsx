@@ -15,11 +15,16 @@ import toast, { Toaster } from "react-hot-toast";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { registered } = useSelector((state) => state.user);
+  const { darkmode } = useSelector((state) => state.darkmode);
 
   useEffect(() => {
     if (registered) {
       toast.success("Logged succesfully!", {
         duration: 5000,
+        style: {
+          background: darkmode ? "#333" : "#fff",
+          color: darkmode ? "#fff" : "black",
+        },
       });
     }
 
@@ -35,7 +40,13 @@ const Dashboard = () => {
   return (
     <>
       <Toaster position="top-center" />
-      <h1>Dashboard</h1>
+      <div className="dashboard-container">
+        <div className="title">
+          <h1>My Palettes</h1>
+          <button>Favorites</button>
+          <div className="grid-container"></div>
+        </div>
+      </div>
     </>
   );
 };
