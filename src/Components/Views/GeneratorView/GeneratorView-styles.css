@@ -50,4 +50,30 @@
   justify-content: space-around;
   align-items: center;
   flex-grow: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.color-box:hover {
+  flex-grow: 3;
+}
+.color-box h1 {
+  color: white;
+  text-shadow: -0.5px 0 rgb(0, 0, 0), 0 0.5px rgb(0, 0, 0), 0.5px 0 rgb(0, 0, 0),
+    0 -0.5px rgb(0, 0, 0);
+}
+
+.color-box .icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30px;
+  width: 35%;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  padding: 0.3125rem;
+}
+
+.color-box .icons:hover {
+  background-color: #69696956;
+  border-radius: 0.625rem;
 }

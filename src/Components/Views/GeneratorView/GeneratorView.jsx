@@ -1,34 +1,119 @@
 import React, { useState, useEffect } from "react";
 
-//Hooks
-import useColors from "../../../Hooks/useColors";
-
 //axios
 import axios from "axios";
+
+//Copy to clipboard
+import copy from "copy-to-clipboard";
 
 //React icons
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsShare } from "react-icons/bs";
 import { BiCopy } from "react-icons/bi";
-import { BiLockOpenAlt } from "react-icons/bi";
 import { MdDragHandle } from "react-icons/md";
+import { IoMdRefresh } from "react-icons/io";
+
+//React hot toast
+import { toast, Toaster } from "react-hot-toast";
 
 //Css
 import "./GeneratorView-styles.css";
 
 const { REACT_APP_API_DEV_URL } = process.env;
 
-const ColorBox = ({ color }) => {
-  const { hex } = color;
+const ColorBox = ({ color, index, colorPalette }) => {
+  const [colorOfColorBox, setColorOfBox] = useState(null);
+
+  const {
+    hexPalette,
+    rgb: {},
+  } = color;
+
+  const genColor = (e) => {
+    const pos = e.target.getAttribute("position");
+    const min = 0;
+    const max = 255;
+
+    let color = {
+      red: Math.round(Math.random() * (max - min) + min),
+      green: Math.round(Math.random() * (max - min) + min),
+      blue: Math.round(Math.random() * (max - min) + min),
+    };
+
+    const hex = transformaRgbAHex(color.red, color.green, color.blue);
+    setColorOfBox({ hex: hex, rgb: color });
+
+    changePosition(colorPalette, pos, hex, color);
+  };
+
+  function transformaRgbAHex(red, green, blue) {
+    let hex = {
+      hex_color:
+        "#" +
+        ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1),
+    };
+    return hex.hex_color;
+  }
+
+  const handleCopy = async () => {
+    try {
+      copy(colorOfColorBox == null ? hexPalette : colorOfColorBox.hex);
+      toast("Copied to the clipboard!", {
+        icon: "✅",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+        duration: 2500,
+      });
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
+  function changePosition(colorPalette, pos, hex, color) {
+    if (pos == null) {
+      return;
+    } else {
+      colorPalette[pos] = { hexPalette: hex, rgb: color };
+    }
+  }
 
   return (
     <>
-      <div style={{ backgroundColor: hex }} className="color-box">
-        <h1>Color Box</h1>
+      <Toaster position="bottom-center" />
+      <div
+        style={{
+          backgroundColor:
+            colorOfColorBox == null ? hexPalette : colorOfColorBox.hex,
+        }}
+        className="color-box"
+      >
+        <h1>
+          {colorOfColorBox == null
+            ? hexPalette.toUpperCase()
+            : colorOfColorBox.hex.toUpperCase()}
+        </h1>
         <div className="icons">
-          <BiCopy />
-          <BiLockOpenAlt />
-          <MdDragHandle />
+          <IoMdRefresh
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={genColor}
+            position={index}
+          />
+          <BiCopy
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={handleCopy}
+          />
+          <MdDragHandle
+            style={{
+              cursor: "pointer",
+            }}
+          />
         </div>
       </div>
     </>
@@ -38,22 +123,9 @@ const ColorBox = ({ color }) => {
 const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
   const url = REACT_APP_API_DEV_URL;
-  const [hexColor, setHexColor] = useState("");
   const [colorPalette, setColorPalette] = useState("");
 
   useEffect(() => {
-    /*const fetchColor = async () => {
-      try {
-        const color = await axios.get(`${url}/palettes/get/newcolors`);
-
-        setColorPalette(prepareColorPalette(color.data));
-        console.log(color.data);
-        console.log(colorPalette);
-      } catch (error) {}
-    };
-
-    fetchColor();*/
-
     const arrayOfColors = [];
 
     const min = 0;
@@ -131,13 +203,13 @@ const GeneratorView = () => {
       colorSeven.blue
     );
 
-    arrayOfColors.push({ hex: hexOne, rgb: colorOne });
-    arrayOfColors.push({ hex: hexTwo, rgb: colorTwo });
-    arrayOfColors.push({ hex: hexThree, rgb: colorThree });
-    arrayOfColors.push({ hex: hexFour, rgb: colorFour });
-    arrayOfColors.push({ hex: hexFive, rgb: colorFive });
-    arrayOfColors.push({ hex: hexSix, rgb: colorSix });
-    arrayOfColors.push({ hex: hexSeven, rgb: colorSeven });
+    arrayOfColors.push({ hexPalette: hexOne, rgb: colorOne });
+    arrayOfColors.push({ hexPalette: hexTwo, rgb: colorTwo });
+    arrayOfColors.push({ hexPalette: hexThree, rgb: colorThree });
+    arrayOfColors.push({ hexPalette: hexFour, rgb: colorFour });
+    arrayOfColors.push({ hexPalette: hexFive, rgb: colorFive });
+    arrayOfColors.push({ hexPalette: hexSix, rgb: colorSix });
+    arrayOfColors.push({ hexPalette: hexSeven, rgb: colorSeven });
 
     function transformaRgbAHex(red, green, blue) {
       let hex = {
@@ -175,7 +247,14 @@ const GeneratorView = () => {
         <div className="generator-box">
           {(colorPalette.length === 0 ? [] : colorPalette).map(
             (color, index) => {
-              return <ColorBox key={index} color={color} />;
+              return (
+                <ColorBox
+                  colorPalette={colorPalette}
+                  key={index}
+                  color={color}
+                  index={index}
+                />
+              );
             }
           )}
         </div>
