@@ -290,7 +290,7 @@ const SignInRoutes = ({ location, pageTransition, loading }) => {
         }
       ></Route>
       <Route
-        path="dashboard"
+        path="/"
         element={
           <motion.div
             className="page"

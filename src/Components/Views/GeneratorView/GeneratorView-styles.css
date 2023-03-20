@@ -32,6 +32,33 @@
   padding: 8px;
 }
 
+.generator-container .title .icons{
+  border: 1px solid blue;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  font-size: 20px;
+ padding:4px
+}
+
+.generator-container .title .icons span{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  font-weight:600;
+  width: 25%;
+  justify-content: space-around;
+  padding: .1rem;
+}
+
+.generator-container .title .icons span:hover {
+  background-color: #c0c0c056;
+  border-radius: 0.625rem;
+}
+
+
 .generator-container .generator-box {
   display: flex;
   flex-direction: column;
@@ -76,4 +103,11 @@
 .color-box .icons:hover {
   background-color: #69696956;
   border-radius: 0.625rem;
+}
+
+.modal-container{
+  border:2px solid blueviolet;
+  z-index: 1;
+  background-color: whitesmoke;
+  transition: 0.2s ease-in-out;
 }

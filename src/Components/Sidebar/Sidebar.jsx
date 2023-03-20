@@ -150,7 +150,7 @@ const LoggedUserList = ({ handleHide, darkmode, signOut }) => {
       </li>
       <li style={{ fontSize: "22px", borderBottom: "1px solid #848C8E" }}>
         <DashboardIcon style={{ color: "#5CAB7D" }} />
-        <Link style={{ color: "#5CAB7D" }} onClick={handleHide} to="/dashboard">
+        <Link style={{ color: "#5CAB7D" }} onClick={handleHide} to="/">
           DashBoard
         </Link>
       </li>

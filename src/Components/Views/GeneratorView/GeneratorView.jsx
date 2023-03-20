@@ -3,15 +3,24 @@ import React, { useState, useEffect } from "react";
 //axios
 import axios from "axios";
 
+//Sweet Alert
+import Swal from "sweetalert2";
+
 //Copy to clipboard
 import copy from "copy-to-clipboard";
 
 //React icons
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsShare } from "react-icons/bs";
-import { BiCopy } from "react-icons/bi";
+import { BiCopy,BiUndo, BiRedo } from "react-icons/bi";
 import { MdDragHandle } from "react-icons/md";
 import { IoMdRefresh } from "react-icons/io";
+
+//Material UI
+import Divider from '@mui/material/Divider';
+
+//Framer motion
+import { AnimatePresence, motion } from "framer-motion";
 
 //React hot toast
 import { toast, Toaster } from "react-hot-toast";
@@ -19,10 +28,18 @@ import { toast, Toaster } from "react-hot-toast";
 //Css
 import "./GeneratorView-styles.css";
 
+//Hooks 
+import useMobile from "../../../Hooks/useMobile"
+
+//Components
+import BasicMenu from "./BasicMenu.jsx";
+import Modal from "../../../utils/Modal.jsx"
+
 const { REACT_APP_API_DEV_URL } = process.env;
 
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
+
 
   const {
     hexPalette,
@@ -80,6 +97,8 @@ const ColorBox = ({ color, index, colorPalette }) => {
     }
   }
 
+
+
   return (
     <>
       <Toaster position="bottom-center" />
@@ -124,6 +143,9 @@ const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
   const url = REACT_APP_API_DEV_URL;
   const [colorPalette, setColorPalette] = useState("");
+  const isMobile = useMobile()
+  const [modalOpen, setModalOpen]=useState(false);
+  
 
   useEffect(() => {
     const arrayOfColors = [];
@@ -225,23 +247,71 @@ const GeneratorView = () => {
     return () => {};
   }, [changeColors]);
 
-  const handleClick = () => {
-    setChangeColors(!changeColors);
-  };
 
   const prepareColorPalette = (palette) => {
     const colors = palette.splice(0, 5);
     return colors;
   };
 
+  const savePalette = async ()=>{
+    
+  }
+
+  const handleOpenAndCloseModal = ()=>{
+    setModalOpen(!modalOpen)
+  }
+
+  const pageTransition = {
+    in: {
+      opacity: 1,
+    },
+  
+    out: {
+      opacity: 0,
+    },
+  };
+
   return (
     <>
       <div className="generator-container">
+        {modalOpen?(
+        <AnimatePresence>
+           <motion.div
+            style={{position:"absolute"}}
+            initial={{ scale: 0 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }}
+          >
+          <Modal handleOpenAndCloseModal={handleOpenAndCloseModal} />
+          </motion.div>
+        </AnimatePresence>
+        ):(<></>)}
         <div className="title">
-          <button onClick={handleClick}>Generar</button>
+          {/*
+          {!isMobile?(
+
+            <span>Generate each color and save the palette!</span>
+          ):(<></>)}
+           */}
           <div className="icons">
-            <AiOutlineHeart />
-            <BsShare />
+
+            <BiUndo/>
+            <BiRedo/>
+     
+            <Divider orientation="vertical"  flexItem />
+            <span>
+            <AiOutlineHeart style={{alignSelf:"center",paddingTop:"2px", fontSize:"25px"}} onClick={handleOpenAndCloseModal} />
+              Save
+            </span>
+              <Divider orientation="vertical"  flexItem />
+            <span style={{width:"30%"}} >
+              <BsShare style={{alignSelf:"center", paddingTop:"2px",fontSize:"25px"}} />
+              <BasicMenu/>
+            </span>
           </div>
         </div>
         <div className="generator-box">

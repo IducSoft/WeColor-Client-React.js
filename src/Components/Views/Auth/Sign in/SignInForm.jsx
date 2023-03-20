@@ -63,7 +63,7 @@ const SignInForm = () => {
 
       dispatch(loginSuccess(userLogged.data.user));
       setTokenToCookies(userLogged.data.token);
-      navigate("/dashboard", { replace: true });
+      navigate("/", { replace: true });
       dispatch(registeredSuccess());
     } catch (error) {
       dispatch(loginFailure());

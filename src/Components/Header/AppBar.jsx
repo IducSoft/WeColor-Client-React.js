@@ -317,7 +317,7 @@ const LoggedRenderMobileMenu = ({ check, handleMobileMenuClose }) => {
           <p>Explore</p>
         </MenuItem>
       </Link>
-      <Link to="dashboard" style={{ textDecoration: "none", color: "#5CAB7D" }}>
+      <Link to="/" style={{ textDecoration: "none", color: "#5CAB7D" }}>
         <MenuItem onClick={handleMobileMenuClose}>
           <IconButton
             size="large"
