@@ -27,11 +27,10 @@ import { useSelector } from "react-redux";
 //Components
 import { SwalError } from "../../../../utils/Swal";
 
-//const { REACT_APP_API_DEV_URL } = process.env;
+const url = import.meta.env.VITE_DEV_URL;
 
 const SignUpForm = () => {
   //const url = REACT_APP_API_DEV_URL;
-  const url = "https://wecolor-backend.up.railway.app/api";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorSwal, setErrorSwal] = useState("");
@@ -57,10 +56,6 @@ const SignUpForm = () => {
   useEffect(() => {
     setErrorSwal("");
   }, [errorSwal]);
-
-  /* const setTokenToCookies = async (cookiesToken) => {
-    Cookies.set("we_color_token", cookiesToken);
-  };*/
 
   //Validation Schema
   const required = "* Required field";

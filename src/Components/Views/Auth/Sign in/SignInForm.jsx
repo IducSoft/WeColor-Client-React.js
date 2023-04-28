@@ -131,7 +131,6 @@ const SignInForm = () => {
           onSubmit={(values, { resetForm }) => {
             resetForm();
             let user = {};
-
             user = {
               email: values.email,
               password: values.password,
