@@ -33,9 +33,8 @@ import useMobile from "../../../Hooks/useMobile"
 
 //Components
 import BasicMenu from "./BasicMenu.jsx";
-import Modal from "../../../utils/Modal.jsx"
-
-const { REACT_APP_API_DEV_URL } = process.env;
+import Modal from "../../../utils/Modal.jsx";
+//const { REACT_APP_API_DEV_URL } = process.env;
 
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
@@ -141,7 +140,8 @@ const ColorBox = ({ color, index, colorPalette }) => {
 
 const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
-  const url = REACT_APP_API_DEV_URL;
+  //const url = REACT_APP_API_DEV_URL;
+  const url = "https://wecolor-backend.up.railway.app/api";
   const [colorPalette, setColorPalette] = useState("");
   const isMobile = useMobile()
   const [modalOpen, setModalOpen]=useState(false);

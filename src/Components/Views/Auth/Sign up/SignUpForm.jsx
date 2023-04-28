@@ -27,10 +27,11 @@ import { useSelector } from "react-redux";
 //Components
 import { SwalError } from "../../../../utils/Swal";
 
-const { REACT_APP_API_DEV_URL } = process.env;
+//const { REACT_APP_API_DEV_URL } = process.env;
 
 const SignUpForm = () => {
-  const url = REACT_APP_API_DEV_URL;
+  //const url = REACT_APP_API_DEV_URL;
+  const url = "https://wecolor-backend.up.railway.app/api";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorSwal, setErrorSwal] = useState("");
