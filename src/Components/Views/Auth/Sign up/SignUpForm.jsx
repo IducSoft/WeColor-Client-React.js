@@ -27,7 +27,9 @@ import { useSelector } from "react-redux";
 //Components
 import { SwalError } from "../../../../utils/Swal";
 
-const url = import.meta.env.VITE_DEV_URL;
+//const url = import.meta.env.VITE_DEV_URL;
+
+const url = "https://wecolor-api-rest.up.railway.app/api";
 
 const SignUpForm = () => {
   //const url = REACT_APP_API_DEV_URL;

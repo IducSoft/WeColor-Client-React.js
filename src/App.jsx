@@ -195,7 +195,7 @@ const SignOutRoutes = ({ location, pageTransition }) => {
         }
       ></Route>
       <Route
-        path="generator"
+        path="/generator"
         element={
           <motion.div
             className="page"

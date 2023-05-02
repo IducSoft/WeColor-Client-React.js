@@ -1,10 +1,12 @@
 import React from "react";
+import ExplorePallettesInputSearch from "./ExplorePallettesInputSearch";
 
 const ExplorePalettes = () => {
   return (
-    <>
-      <h1>ExplorePalettes</h1>
-    </>
+    <div >
+      <ExplorePallettesInputSearch/>
+      
+    </div>
   );
 };
 
