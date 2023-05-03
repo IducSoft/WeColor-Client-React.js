@@ -56,10 +56,10 @@ const SignInForm = () => {
           email,
           password,
         },
-        {
-          withCredentials: true,
-          credentials: "include",
-        }
+        //{
+          //withCredentials: true,
+          //credentials: "include",
+        //}
       );
 
       dispatch(loginSuccess(userLogged.data.user));
