@@ -11,7 +11,7 @@ import axios from "axios";
 
 
 
-const Modal = ({handleOpenAndCloseModal}) => {
+const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
 
 //Validation Schema
   const required = "* Required field";
@@ -24,12 +24,18 @@ const Modal = ({handleOpenAndCloseModal}) => {
 
 
   const handlePaletteCreation=(newPalette)=>{
-console.log(newPalette)
+const {title, description, tags}=newPalette;
+
+const savedColorPalette = {userId:"123456789",title, description, tags, colors:colorPalette}
+
+console.log("Saved color palette: ", savedColorPalette)
+
   }
 
     return ( <>
     <div className='modal-container'>
-        <span onClick={handleOpenAndCloseModal} >X</span>
+           <h2 >New Palette</h2>
+        <span style={{position:"absolute", top:"0%", right:"2%", cursor:"pointer"}} onClick={handleOpenAndCloseModal} >X</span>
           <Formik
           initialValues={{
             title: "",
@@ -53,7 +59,6 @@ console.log(newPalette)
         >
           {({ errors }) => (
             <Form >
-              <h2 >New Palette</h2>
               <div>
               <label>Title:</label>
                 <Field

@@ -93,6 +93,7 @@ const ColorBox = ({ color, index, colorPalette }) => {
       return;
     } else {
       colorPalette[pos] = { hexPalette: hex, rgb: color };
+      console.log(colorPalette)
     }
   }
 
@@ -108,7 +109,7 @@ const ColorBox = ({ color, index, colorPalette }) => {
         }}
         className="color-box"
       >
-        <h1>
+        <h1 style={{fontSize:"28px"}}>
           {colorOfColorBox == null
             ? hexPalette.toUpperCase()
             : colorOfColorBox.hex.toUpperCase()}
@@ -286,7 +287,7 @@ const GeneratorView = () => {
               damping: 20
             }}
           >
-          <Modal handleOpenAndCloseModal={handleOpenAndCloseModal} />
+          <Modal colorPalette={colorPalette} handleOpenAndCloseModal={handleOpenAndCloseModal} />
           </motion.div>
         </AnimatePresence>
         ):(<></>)}
@@ -303,8 +304,8 @@ const GeneratorView = () => {
             <BiRedo/>
      
             <Divider orientation="vertical"  flexItem />
-            <span>
-            <AiOutlineHeart style={{alignSelf:"center",paddingTop:"2px", fontSize:"25px"}} onClick={handleOpenAndCloseModal} />
+            <span style={{cursor:"pointer"}} onClick={handleOpenAndCloseModal} >
+            <AiOutlineHeart style={{alignSelf:"center",paddingTop:"2px", fontSize:"25px"}} />
               Save
             </span>
               <Divider orientation="vertical"  flexItem />

@@ -110,4 +110,36 @@
   z-index: 1;
   background-color: whitesmoke;
   transition: 0.2s ease-in-out;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+  position: relative;
+  padding: 10px;
+  border-radius: 1rem;
+}
+
+.modal-container form{
+  border:3px solid red;
+  height:95%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+
+.modal-container form div label{
+  align-self: start;
+  margin-top: 1rem;
+}
+
+.modal-container form input{
+  border: 2px green solid;
+  width: 17.1875rem;
+  padding: 4px;
+  border-radius: .5rem;
 }
