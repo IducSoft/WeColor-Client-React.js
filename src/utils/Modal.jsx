@@ -9,10 +9,14 @@ import * as Yup from "yup";
 //Libraries
 import axios from "axios";
 
+//Redux
+import {useSelector} from "react-redux"
+
+const url = import.meta.env.VITE_PROD_URL;
 
 
 const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
-
+  const { currentUser } = useSelector((state) => state.user);
 //Validation Schema
   const required = "* Required field";
 
@@ -23,14 +27,50 @@ const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
   });
 
 
-  const handlePaletteCreation=(newPalette)=>{
+  const handlePaletteCreation= async(newPalette)=>{
 const {title, description, tags}=newPalette;
 
-const savedColorPalette = {userId:"123456789",title, description, tags, colors:colorPalette}
+const arrayTags = tags.split(",");
 
-console.log("Saved color palette: ", savedColorPalette)
+const finalTags = takeOutSpaces(arrayTags);
 
-  }
+const savedColorPalette = {
+  "userId":`${currentUser._id}`,
+  "title":`${title}`,
+  "desc":`${description}`,
+  "colors":colorPalette,
+  "tags":finalTags
+}
+
+let headerList = {
+  "Accept":"*/*",
+  "Content-Type":"application/json"
+}
+
+let options = {
+  url:`${url}/palettes/add`,
+  method:"POST",
+  headers:headerList,
+  data:savedColorPalette
+}
+try {
+  const {data, error} = await axios.request(options,{
+    withCredentials:true,
+    credentials:"include"
+  });
+  console.log(data)
+  if(error) throw error
+} catch (error) {
+  console.log(error)
+}
+ }
+
+ const takeOutSpaces = (array)=>{
+  const newArray =  array.map(element =>
+  element.trim()
+)
+return newArray;
+ }
 
     return ( <>
     <div className='modal-container'>
@@ -44,7 +84,7 @@ console.log("Saved color palette: ", savedColorPalette)
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
-            resetForm();
+           resetForm();
             let newPalette = {};
 
             newPalette = {
