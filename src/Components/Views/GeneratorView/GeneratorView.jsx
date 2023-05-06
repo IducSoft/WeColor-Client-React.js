@@ -34,7 +34,6 @@ import useMobile from "../../../Hooks/useMobile"
 //Components
 import BasicMenu from "./BasicMenu.jsx";
 import Modal from "../../../utils/Modal.jsx";
-//const { REACT_APP_API_DEV_URL } = process.env;
 
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
@@ -141,8 +140,7 @@ const ColorBox = ({ color, index, colorPalette }) => {
 
 const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
-  //const url = REACT_APP_API_DEV_URL;
-  const url = "https://wecolor-backend.up.railway.app/api";
+  const url = import.meta.env.VITE_PROD_URL;
   const [colorPalette, setColorPalette] = useState("");
   const isMobile = useMobile()
   const [modalOpen, setModalOpen]=useState(false);
@@ -248,15 +246,46 @@ const GeneratorView = () => {
     return () => {};
   }, [changeColors]);
 
+/**
+ useEffect(()=>{
+  const fetchByQuery = async ()=>{
+
+    const query = "#e782c1";
+    let headerList = {
+      //"Accept":",
+      "Content-Type":"application/json",
+    }
+    
+    let options = {
+      url:`${url}/palettes/get/search?`,
+      method:"GET",
+      headers:headerList,
+      params:{
+        q:query
+      },
+    }
+
+    try {
+      const {data} = await axios.request(options,{
+        withCredentials:true,
+        credentials:"include"
+      })
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+fetchByQuery();
+
+},[]) 
+ * */ 
 
   const prepareColorPalette = (palette) => {
     const colors = palette.splice(0, 5);
     return colors;
   };
 
-  const savePalette = async ()=>{
-    
-  }
 
   const handleOpenAndCloseModal = ()=>{
     setModalOpen(!modalOpen)
