@@ -2,6 +2,9 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import paletteReducer from "./paletteSlice";
 import darkModeReducer from "./darkModeSlice";
+import explorePalettesReducer from "./resultPalettesFromExploreSlice";
+
+
 import {
   persistStore,
   persistReducer,
@@ -25,6 +28,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   palette: paletteReducer,
   darkmode: darkModeReducer,
+  explorePalettes: explorePalettesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
