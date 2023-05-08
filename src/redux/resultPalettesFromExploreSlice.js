@@ -9,10 +9,12 @@ export const resultPalettesFromExploreSlice = createSlice({
     initialState,
     reducers: {
     resultFromAll: (state, payload) => {
-      state.resultPalettesAll = [...payload.payload];
+      state.resultPalettesAll = payload.payload;
     },
+    
+    
 }});
 
-export const { resultFromAll } = resultPalettesFromExploreSlice.actions;
+export const { resultFromAll} = resultPalettesFromExploreSlice.actions;
 
 export default resultPalettesFromExploreSlice.reducer;

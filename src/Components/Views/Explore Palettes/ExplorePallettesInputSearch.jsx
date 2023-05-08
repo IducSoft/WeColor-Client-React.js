@@ -3,13 +3,13 @@ import { Field, Form, Formik } from "formik"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { resultFromAll } from "../../../redux/resultPalettesFromExploreSlice"
-
+import {resultFromAll } from "../../../redux/resultPalettesFromExploreSlice"
+import Swal from 'sweetalert2'
 
 
 const ExplorePallettesInputSearch = ({ index, store }) => {
-  const [filter, setInput] = useState('')
-  const [searchQuery, setSearchQuery] = useState(true)
+  const [filter, setFilter] = useState('all')
+  const [searchQuery, setSearchQuery] = useState("")
   const dispatch = useDispatch();
   const url = "https://wecolor-api-rest.up.railway.app/api";
   const {resultPalettesAll} = useSelector((state)=>state.explorePalettes);
@@ -22,18 +22,139 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
   });
   
   useEffect(()=>{
-    const getAllPalettes = async () => {
-      try {
-        const resultAllPalettes = await axios.get(`${url}/palettes/`);
-        dispatch(resultFromAll(resultAllPalettes.data))
-      } catch (error) {
-        console.log(error)
+    if(filter ==="all"){
+      getAllPalettes();
+    }
+  }, [])
+
+  const getAllPalettes = async () => {
+    try {
+      const resultAllPalettes = await axios.get(`${url}/palettes/`);
+      dispatch(resultFromAll(resultAllPalettes.data))
+      
+      //console.log("todas las paletas")
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const getTrendingPalettes = async ()=>{
+
+    try {
+      const resultAllPalettesTrending = await axios.get(`${url}/palettes/get/trend`);
+      dispatch(resultFromAll(resultAllPalettesTrending.data))
+      //console.log("buscado por trending")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getRecentPalettes = async ()=>{
+
+    try {
+      const resultAllPalettesRecent = await axios.get(`${url}/palettes/get/recent`);
+      dispatch(resultFromAll(resultAllPalettesRecent.data))
+      //console.log("buscado por recientes")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getByTagsPalettes = async (tag)=>{
+
+    try {
+      const resultAllPalettesByTags = await axios.get(`${url}/palettes/get/tags?tags=${tag}`);
+
+      dispatch(resultFromAll(resultAllPalettesByTags.data));
+      if(resultAllPalettesByTags.data.message){
+        let timerInterval;
+        Swal.fire({
+          icon:"error",
+          title: "Cant find palettes that match your tags query",
+          html: 'I will close in <b></b> milliseconds.',
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+
+        return;
       }
+      //console.log("buscado por tags")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getByQueryParams = async (query) => {
+
+    let headerList = {
+      "Accept":"*/*",
+      "Content-type":"application/json",
     };
 
-    getAllPalettes();
-    
-  }, [])
+    let options = {
+      url:`${url}/palettes/get/search?`,
+      headers:headerList,
+      params:{
+        q:query,
+      }
+    }
+
+    try {
+      const resultAllPalettesQueryParams = await axios.request(options, {
+        withCredentials:true,
+        credential:"include"
+      });
+
+
+      if(resultAllPalettesQueryParams.data.message){
+        dispatch(resultFromAll(resultAllPalettesQueryParams.data));
+        let timerInterval;
+        Swal.fire({
+          icon:"error",
+          title: "Cant find palettes that match your hexadecimal query",
+          html: 'I will close in <b></b> milliseconds.',
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+        
+        return;
+      }
+      dispatch(resultFromAll(resultAllPalettesQueryParams.data))
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   
   
@@ -41,12 +162,27 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
     <>
       <Formik
         initialValues={{
-          filter: 'all',
+          filter: "all",
           searchQuery: '',
         }}
         onSubmit={(values, { resetForm }) => {
-          setInput(values.filter)
-          setSearchQuery(values.searchQuery)
+          setFilter(values.filter)
+          setSearchQuery(values.searchQuery);
+          if(values.filter==="all"){
+            getAllPalettes();
+          }
+          if(values.filter === "trending"){
+            getTrendingPalettes();
+          }
+          if(values.filter === "recent"){
+            getRecentPalettes();
+          }
+          if(values.filter === "tags" && values.searchQuery !== ""){
+            getByTagsPalettes(values.searchQuery);
+          }
+          if(values.filter === "hexadecimal" && values.searchQuery !== ""){
+            getByQueryParams(values.searchQuery);
+          }
           resetForm();
         }}
       >
@@ -62,7 +198,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
             />
             <div className="mx-2">
               <button type="submit" className="rounded-lg bg-sky-500 w-full p-2 cursor-pointer text-white my-3" >
-                Submit
+                Buscar
               </button>
             </div>
             </div>
