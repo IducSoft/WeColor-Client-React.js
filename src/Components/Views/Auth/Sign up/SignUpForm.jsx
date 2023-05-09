@@ -54,6 +54,7 @@ const SignUpForm = () => {
       setErrorSwal(error.response?.data.message);
     }
   };
+  
 
   useEffect(() => {
     setErrorSwal("");

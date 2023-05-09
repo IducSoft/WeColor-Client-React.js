@@ -12,11 +12,22 @@ import axios from "axios";
 //Redux
 import {useSelector} from "react-redux"
 
+//Material Icons
+import CloseIcon from '@mui/icons-material/Close';
+
+//react hot toast
+import toast, { Toaster } from "react-hot-toast";
+
+
+//Js cookie
+//import Cookies from "js-cookie";
+
 const url = import.meta.env.VITE_PROD_URL;
 
 
 const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
   const { currentUser } = useSelector((state) => state.user);
+  const { darkmode } = useSelector((state) => state.darkmode);
 //Validation Schema
   const required = "* Required field";
 
@@ -53,17 +64,41 @@ let options = {
   headers:headerList,
   data:savedColorPalette
 }
-try {
-  const {data, error} = await axios.request(options,{
-    withCredentials:true,
-    credentials:"include"
-  });
-  console.log(data)
-  if(error) throw error
-} catch (error) {
-  console.log(error)
+
+
+  try {
+    const {data, error} = await axios.request(options,{
+      withCredentials:true,
+      credentials:"include"
+    });
+    console.log(data)
+
+    toast.success(
+      "The palette has been saved!",
+      {
+        duration: 3000,
+        style: {
+          background: "#333" ,
+          color: "#fff",
+        },
+        position:"top-center"
+      }
+    );
+    handleOpenAndCloseModal()
+    if(error) throw error
+  } catch (error) {
+    console.log(error)
+  }
+ 
 }
- }
+
+//const checkCookie = ()=>{
+  //const weColorToken = Cookies.get("we_color_token")
+  //console.log(weColorToken)
+  //return weColorToken
+//}
+
+
 
  const takeOutSpaces = (array)=>{
   const newArray =  array.map(element =>
@@ -74,8 +109,8 @@ return newArray;
 
     return ( <>
     <div className='modal-container'>
-           <h2 >New Palette</h2>
-        <span style={{position:"absolute", top:"0%", right:"2%", cursor:"pointer"}} onClick={handleOpenAndCloseModal} >X</span>
+           <h2 className='font-bold text-lg' >New Palette</h2>
+       <CloseIcon style={{position:"absolute", top:"0%", right:"1%", cursor:"pointer"}} className='span'  onClick={handleOpenAndCloseModal} />
           <Formik
           initialValues={{
             title: "",
@@ -93,7 +128,22 @@ return newArray;
               tags:values.tags,
             };
 
-            handlePaletteCreation(newPalette)
+            if(currentUser){
+              handlePaletteCreation(newPalette)
+            }else{
+              toast.error(
+                "You must to be logged!",
+                {
+                  duration: 3000,
+                  icon:'🚩',
+                  style: {
+                    background: "#333",
+                    color:  "#fff",
+                  },
+                  position:"top-center"
+                }
+              );
+            }  
             
           }}
         >
@@ -104,7 +154,7 @@ return newArray;
                 <Field
                   type="text"
                   name="title"
-                 
+                 placeholder="My new palette"
                   className={errors.password ? "input error-border" : "input"}
                 />
                 <ErrorMessage
@@ -119,6 +169,7 @@ return newArray;
                 <Field
                   type="textarea"
                   name="description"
+                  placeholder="Best palette ever"
                   className={errors.description ? "input error-border" : "input"}
                 />
                 <ErrorMessage
@@ -133,6 +184,7 @@ return newArray;
                 <Field
                   type="text"
                   name="tags"
+                  placeholder="ocean, water, lake, calm"
                   className={errors.tags ? "input error-border" : "input"}
                 />
                 <ErrorMessage

@@ -106,29 +106,34 @@
 }
 
 .modal-container{
-  border:2px solid blueviolet;
   z-index: 1;
-  background-color: whitesmoke;
+  background-color: rgb(255, 255, 255);
   transition: 0.2s ease-in-out;
   width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 350px;
+  height: 400px;
   position: relative;
-  padding: 10px;
+  padding: 15px;
   border-radius: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.modal-container .span:hover{
+color: var(--error-color);
 }
 
 .modal-container form{
-  border:3px solid red;
   height:95%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 
@@ -138,8 +143,19 @@
 }
 
 .modal-container form input{
-  border: 2px green solid;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   width: 17.1875rem;
-  padding: 4px;
+  padding: 6px;
   border-radius: .5rem;
+}
+
+.modal-container .sign-button{
+background-color: var(--purple-color);
+padding: 10px;
+width: 60%;
+border-radius: 16px;
+color: white;
+font-weight: bold;
+margin-top: 8px;
+
 }

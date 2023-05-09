@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-//axios
-import axios from "axios";
-
-//Sweet Alert
-import Swal from "sweetalert2";
-
 //Copy to clipboard
 import copy from "copy-to-clipboard";
 
@@ -246,40 +240,6 @@ const GeneratorView = () => {
     return () => {};
   }, [changeColors]);
 
-/**
- useEffect(()=>{
-  const fetchByQuery = async ()=>{
-
-    const query = "#e782c1";
-    let headerList = {
-      //"Accept":",
-      "Content-Type":"application/json",
-    }
-    
-    let options = {
-      url:`${url}/palettes/get/search?`,
-      method:"GET",
-      headers:headerList,
-      params:{
-        q:query
-      },
-    }
-
-    try {
-      const {data} = await axios.request(options,{
-        withCredentials:true,
-        credentials:"include"
-      })
-      console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-fetchByQuery();
-
-},[]) 
- * */ 
 
   const prepareColorPalette = (palette) => {
     const colors = palette.splice(0, 5);
