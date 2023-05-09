@@ -76,7 +76,7 @@ let options = {
     toast.success(
       "The palette has been saved!",
       {
-        duration: 3000,
+        duration: 4500,
         style: {
           background: "#333" ,
           color: "#fff",
@@ -134,7 +134,7 @@ return newArray;
               toast.error(
                 "You must to be logged!",
                 {
-                  duration: 3000,
+                  duration: 4500,
                   icon:'🚩',
                   style: {
                     background: "#333",
