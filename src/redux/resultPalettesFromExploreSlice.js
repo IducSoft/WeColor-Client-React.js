@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   resultPalettesAll:[],
+  typeSearch:null,
 };
 
 export const resultPalettesFromExploreSlice = createSlice({
@@ -11,10 +12,12 @@ export const resultPalettesFromExploreSlice = createSlice({
     resultFromAll: (state, payload) => {
       state.resultPalettesAll = payload.payload;
     },
-    
+    typeSearching:(state, payload)=>{
+      state.typeSearch = payload.payload;
+    },
     
 }});
 
-export const { resultFromAll} = resultPalettesFromExploreSlice.actions;
+export const { resultFromAll, typeSearching} = resultPalettesFromExploreSlice.actions;
 
 export default resultPalettesFromExploreSlice.reducer;

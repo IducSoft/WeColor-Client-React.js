@@ -3,7 +3,7 @@ import { Field, Form, Formik } from "formik"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import {resultFromAll } from "../../../redux/resultPalettesFromExploreSlice"
+import {resultFromAll, typeSearching } from "../../../redux/resultPalettesFromExploreSlice";
 import Swal from 'sweetalert2'
 
 
@@ -12,8 +12,8 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
   const [searchQuery, setSearchQuery] = useState("")
   const dispatch = useDispatch();
   const url = "https://wecolor-api-rest.up.railway.app/api";
-  const {resultPalettesAll} = useSelector((state)=>state.explorePalettes);
-  console.log(resultPalettesAll)
+  //const {resultPalettesAll} = useSelector((state)=>state.explorePalettes);
+  //console.log(resultPalettesAll)
   
   //Validation Schema
   const required = "* Required field";
@@ -30,6 +30,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
   const getAllPalettes = async () => {
     try {
       const resultAllPalettes = await axios.get(`${url}/palettes/`);
+      dispatch(typeSearching("All Palettes"));
       dispatch(resultFromAll(resultAllPalettes.data))
       
       //console.log("todas las paletas")
@@ -42,6 +43,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
 
     try {
       const resultAllPalettesTrending = await axios.get(`${url}/palettes/get/trend`);
+      dispatch(typeSearching("Trending Palette"));
       dispatch(resultFromAll(resultAllPalettesTrending.data))
       //console.log("buscado por trending")
     } catch (error) {
@@ -53,6 +55,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
 
     try {
       const resultAllPalettesRecent = await axios.get(`${url}/palettes/get/recent`);
+      dispatch(typeSearching("Recent Palette"));
       dispatch(resultFromAll(resultAllPalettesRecent.data))
       //console.log("buscado por recientes")
     } catch (error) {
@@ -64,8 +67,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
 
     try {
       const resultAllPalettesByTags = await axios.get(`${url}/palettes/get/tags?tags=${tag}`);
-
-      dispatch(resultFromAll(resultAllPalettesByTags.data));
+      
       if(resultAllPalettesByTags.data.message){
         let timerInterval;
         Swal.fire({
@@ -93,6 +95,9 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
 
         return;
       }
+
+      dispatch(typeSearching(`${tag} Palette`));
+      dispatch(resultFromAll(resultAllPalettesByTags.data));
       //console.log("buscado por tags")
     } catch (error) {
       console.log(error)
@@ -105,7 +110,6 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
       "Accept":"*/*",
       "Content-type":"application/json",
     };
-
     let options = {
       url:`${url}/palettes/get/search?`,
       headers:headerList,
@@ -120,9 +124,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
         credential:"include"
       });
 
-
       if(resultAllPalettesQueryParams.data.message){
-        dispatch(resultFromAll(resultAllPalettesQueryParams.data));
         let timerInterval;
         Swal.fire({
           icon:"error",
@@ -149,17 +151,17 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
         
         return;
       }
+      dispatch(typeSearching(`${query} Palettes`))
       dispatch(resultFromAll(resultAllPalettesQueryParams.data))
       
     } catch (error) {
       console.log(error)
     }
   }
-
   
   
   return (
-    <>
+    <div className="w-full mx-auto flex items-center justify-center">
       <Formik
         initialValues={{
           filter: "all",
@@ -224,16 +226,13 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
                 <Field type="radio" name="filter" value="hexadecimal" />
                 <span className="mx-3 cursor-pointer">Hexadecimal</span>
               </label>
-              
-            <div>Picked: {values.filter}</div>
-            <div>searchQuery: {values.searchQuery}</div>
             </div>
           </div>
         </Form>
       )}
     </Formik>
-    
-    </>
+   
+    </div>
   )
 }
 
