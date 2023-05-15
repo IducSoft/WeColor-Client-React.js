@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Palette = ({palette}) => {
-    console.log(palette.colors)
-  return (
-    <div className="col-span-4 md:col-span-1 text-center rounded" >
+    console.log(palette)
+    return (
+    <div className="col-span-4 md:col-span-1 text-center rounded border-y-stone-950" >
         <div className='grid grid-cols-5'>
             {
                 palette.colors.map((color, index) =>{
@@ -17,8 +17,9 @@ const Palette = ({palette}) => {
                 })
             }
         </div>
+        <h2 className='w-full px-3 py-2 bg-gray-200 text-black'> {palette.title}</h2>
     </div>
-  )
+    )
 }
 
 export default Palette
