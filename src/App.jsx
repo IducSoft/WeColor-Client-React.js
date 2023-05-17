@@ -39,6 +39,7 @@ import SimpleBackDrop from "../src/utils/SimpleBackDrop";
 
 //Hooks
 import useMobile from "./Hooks/useMobile";
+import PaletteDetails from "./Components/Views/Explore Palettes/PaletteDetails";
 
 const RequireAuth = ({ children }) => {
   if (!Cookies.get("we_color_token")) {
@@ -208,9 +209,25 @@ const SignOutRoutes = ({ location, pageTransition }) => {
           </motion.div>
         }
       ></Route>
+
+        <Route
+          path="/paletteDetail/:id"
+          element={
+            <motion.div
+              className="page"
+              initial="out"
+              animate="in"
+              exit="out"
+              variants={pageTransition}
+            >
+              <PaletteDetails/>
+            </motion.div>
+          }
+      ></Route>
     </Routes>
   );
 };
+
 
 const SignInRoutes = ({ location, pageTransition, loading }) => {
   return (
@@ -246,7 +263,7 @@ const SignInRoutes = ({ location, pageTransition, loading }) => {
         }
       ></Route>
       <Route
-        path="generator"
+        path="/generator"
         element={
           <motion.div
             className="page"
@@ -305,6 +322,22 @@ const SignInRoutes = ({ location, pageTransition, loading }) => {
           </motion.div>
         }
       ></Route>
+
+        <Route
+          path="/paletteDetail/:id"
+          element={
+            <motion.div
+              className="page"
+              initial="out"
+              animate="in"
+              exit="out"
+              variants={pageTransition}
+            >
+              <PaletteDetails/>
+            </motion.div>
+          }
+      ></Route>
+
       <Route
         path="*"
         element={
