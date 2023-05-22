@@ -11,7 +11,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
   const [filter, setFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState("")
   const dispatch = useDispatch();
-  const url = "https://wecolor-api-rest.up.railway.app/api";
+  const url = "https://wecolor-api-rest.onrender.com/api";
   //const {resultPalettesAll} = useSelector((state)=>state.explorePalettes);
   //console.log(resultPalettesAll)
   

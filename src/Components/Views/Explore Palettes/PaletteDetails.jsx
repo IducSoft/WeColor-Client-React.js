@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 const PaletteDetails = () => {
 
   const {id} = useParams();
-  const url = "https://wecolor-api-rest.up.railway.app/api";
+  const url = "https://wecolor-api-rest.onrender.com/api";
   console.log(id)
 
 
