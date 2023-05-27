@@ -19,7 +19,18 @@ const PaletteDetails = () => {
   const [dataPalette, setDataPalette] =  useState(null);
   const [pieChartData, setPieChartData] = useState(null);
 
-  
+  const likePalette = async ()=>{
+    console.log("la funion se ejecuta")
+    try {
+      const response = await axios.put(`${url}/users/like/${id}`, {
+        withCredentials:true,
+        credentials:"include"
+      });
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 
   const getPaletteById = async () => {
@@ -88,16 +99,25 @@ const PaletteDetails = () => {
 
             <div className='flex justify-center items-center mt-8'>
               <div className='w-[4rem] mx-3 flex items-center justify-center'>
-                <img src={bueno} alt='like' />
-                <p className='mx-4'>
-                  {dataPalette.likesNumber}
-                </p>
+                <button onClick={()=>likePalette()}>
+                  <img src={bueno} alt='like' />
+                  <p className='mx-4 mt-2'>
+                    {dataPalette.likesNumber}
+                  </p>
+                </button>
+                
               </div>
               <div className='w-[4rem] mx-3'>
-                <img src={favorito} alt='favorito' />
+                <button>
+                  <img src={favorito} alt='favorito' />
+                </button>
+                
               </div>
               <div className='w-[4rem] mx-3'>
-                <img src={paletaDeColor} alt='paleta de color' />
+                <button>
+                  <img src={paletaDeColor} alt='paleta de color' />
+                </button>
+                
               </div>
             </div>
             
@@ -105,7 +125,7 @@ const PaletteDetails = () => {
               {
                 dataPalette.tags.map((tag, key)=>{
                   return(
-                    <div className='bg-purple' key={key}>
+                    <div className='mx-1 text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900' key={key}>
                       {tag}
                     </div>
                   )
