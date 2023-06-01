@@ -7,6 +7,7 @@ import {resultFromAll, typeSearching } from "../../../redux/resultPalettesFromEx
 import Swal from 'sweetalert2'
 
 
+
 const ExplorePallettesInputSearch = ({ index, store }) => {
   const [filter, setFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState("")

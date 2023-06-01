@@ -6,15 +6,17 @@ import { Pie } from 'react-chartjs-2';
 import bueno from "../../../assets/bueno.png";
 import favorito from "../../../assets/favorito.png";
 import paletaDeColor from "../../../assets/paleta-de-color.png";
-
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2'
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PaletteDetails = () => {
 
   const {id} = useParams();
+  const currenUserId = useSelector((state)=>state.user.currentUser._id)
   const url = "https://wecolor-api-rest.onrender.com/api";
-  console.log(id)
+  console.log(id, currenUserId)
 
   const [dataPalette, setDataPalette] =  useState(null);
   const [pieChartData, setPieChartData] = useState(null);
@@ -24,8 +26,17 @@ const PaletteDetails = () => {
     try {
       const response = await axios.put(`${url}/users/like/${id}`, {
         withCredentials:true,
-        credentials:"include"
+        credentials:"include",
+        "user":{
+          "id":`${currenUserId}`
+        }
       });
+      Swal.fire(
+        'Good job!',
+        `${response.data.message}`,
+        'success'
+      )
+      getPaletteById();
       console.log(response.data)
     } catch (error) {
       console.log(error);
