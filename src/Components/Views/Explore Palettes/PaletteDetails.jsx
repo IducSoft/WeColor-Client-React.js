@@ -8,6 +8,8 @@ import favorito from "../../../assets/favorito.png";
 import paletaDeColor from "../../../assets/paleta-de-color.png";
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
+import { Switch } from '@mui/material';
+import {FiCopy} from "react-icons/fi"
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,9 +22,10 @@ const PaletteDetails = () => {
 
   const [dataPalette, setDataPalette] =  useState(null);
   const [pieChartData, setPieChartData] = useState(null);
+  const [rbgOrhex, setRgbOrhex] = useState(true);
 
   const likePalette = async ()=>{
-    console.log("la funion se ejecuta")
+
     try {
       const response = await axios.put(`${url}/users/like/${id}`, {
         withCredentials:true,
@@ -82,6 +85,16 @@ const PaletteDetails = () => {
       console.log(error)
     }
   };
+
+  const handleCopy =(textToCopy)=> {
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        Swal.fire(`${textToCopy} coppied to clipboard`)
+      })
+      .catch(err => {
+        alert('Failed to copy text')
+      });
+  }
 
   useEffect(() => {
 
@@ -143,17 +156,75 @@ const PaletteDetails = () => {
                 })
               }
             </div>
-            
+              
             <div>
               <h2 className='text-center font-bold text-[1.5rem]'>
                 {dataPalette.desc}
               </h2>
             </div>
-
+            <div className='flex items-center justify-center my-5'>
+            <span className='font-bold mx-4'>Rbg</span>
+            <Switch
+              checked={rbgOrhex}
+              onChange={()=>setRgbOrhex(!rbgOrhex)}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
+            <span className='font-bold mx-4'>Hex</span>
           </div>
+          </div>
+          
         )
       }
       
+      {
+        (rbgOrhex === true && dataPalette !== null) && (
+          <div className='flex flex-col w-full mx-auto items-center justify-center'>
+            {
+              dataPalette.colors.map((color, index) =>{
+
+                return(
+                  <div className='flex items-center justify-center my-3'key={index}>
+                    <div className='w-[3.5rem] h-[3.5rem] mx-4' style={{backgroundColor:`${color.hexPalette}`}}>
+                      
+                    </div>
+                    <p className='mx-4'>
+                      {color.hexPalette}
+                    </p>
+                    <button className='mx-4' onClick={(e) => handleCopy(color.hexPalette)}>
+                      <FiCopy/>
+                    </button>
+                  </div>
+                )
+              })
+            }
+          </div>
+        )
+      }
+
+      {
+        (rbgOrhex === false && dataPalette !== null) && (
+          <div className='flex flex-col w-full mx-auto items-center justify-center'>
+            {
+              dataPalette.colors.map((color, index) =>{
+
+                return(
+                  <div className='flex items-center justify-center my-3 w-full'key={index}>
+                    <div className='w-[3.5rem] h-[3.5rem] mx-4' style={{backgroundColor:`${color.hexPalette}`}}>
+                      
+                    </div>
+                    <p className='mx-4'>
+                      { `rgb(${color.rgb.red}, ${color.rgb.green}, ${color.rgb.blue})`}
+                    </p>
+                    <button className='mx-4' onClick={(e) => handleCopy(`rgb(${color.rgb.red}, ${color.rgb.green}, ${color.rgb.blue})`)}>
+                      <FiCopy/>
+                    </button>
+                  </div>
+                )
+              })
+            }
+          </div>
+        )
+      }
     </div>
   )
 }
