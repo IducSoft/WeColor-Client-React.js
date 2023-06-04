@@ -8,8 +8,8 @@ import favorito from "../../../assets/favorito.png";
 import paletaDeColor from "../../../assets/paleta-de-color.png";
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
-import { Switch } from '@mui/material';
-import {FiCopy} from "react-icons/fi"
+import { CircularProgress, Switch } from '@mui/material';
+import {FiCopy} from "react-icons/fi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -104,7 +104,7 @@ const PaletteDetails = () => {
   return (
     <div>
       {
-        dataPalette !== null && (
+        dataPalette !== null ? (
           <div className='p-3'>
             <h2 className='text-center text-[3rem] mt-4'>
               {
@@ -173,6 +173,11 @@ const PaletteDetails = () => {
           </div>
           </div>
           
+        ):(
+          <div className='w-full h-screen flex justify-center items-center'>
+
+            <CircularProgress />
+          </div>
         )
       }
       

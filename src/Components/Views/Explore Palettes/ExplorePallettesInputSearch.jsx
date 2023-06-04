@@ -68,7 +68,6 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
 
     try {
       const resultAllPalettesByTags = await axios.get(`${url}/palettes/get/tags?tags=${tag}`);
-      
       if(resultAllPalettesByTags.data.message){
         let timerInterval;
         Swal.fire({
@@ -96,10 +95,8 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
 
         return;
       }
-
       dispatch(typeSearching(`${tag} Palette`));
       dispatch(resultFromAll(resultAllPalettesByTags.data));
-      //console.log("buscado por tags")
     } catch (error) {
       console.log(error)
     }
