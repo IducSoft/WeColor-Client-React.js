@@ -46,6 +46,20 @@ const PaletteDetails = () => {
     }
   }
 
+  const addPaletteToFavorite = async () =>{
+    try {
+      const response = await axios.put(`${url}/users/favorites/${id}`, {
+        withCredentials:true,
+        credentials:"include",
+        "user":{
+          "id":`${currenUserId}`
+        } 
+      });
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getPaletteById = async () => {
     try {
@@ -132,7 +146,7 @@ const PaletteDetails = () => {
                 
               </div>
               <div className='w-[4rem] mx-3'>
-                <button>
+                <button onClick={()=>addPaletteToFavorite()}>
                   <img src={favorito} alt='favorito' />
                 </button>
                 
