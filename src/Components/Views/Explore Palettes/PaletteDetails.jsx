@@ -40,13 +40,14 @@ const PaletteDetails = () => {
         'success'
       )
       getPaletteById();
-      console.log(response.data)
+      //console.log(response.data)
     } catch (error) {
       console.log(error);
     }
   }
 
-  const addPaletteToFavorite = async () =>{
+  const addPaletteToFavorite = async () => {
+
     try {
       const response = await axios.put(`${url}/users/favorites/${id}`, {
         withCredentials:true,
@@ -54,8 +55,13 @@ const PaletteDetails = () => {
         "user":{
           "id":`${currenUserId}`
         } 
-      });
-      console.log(response)
+      })
+      Swal.fire(
+        'Good job!',
+        `${response.data.message}`,
+        'success'
+      )
+      //console.log(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -64,7 +70,7 @@ const PaletteDetails = () => {
   const getPaletteById = async () => {
     try {
       const resultPalettesById = await axios.get(`${url}/palettes/${id}`);
-      console.log(resultPalettesById.data)
+      //console.log(resultPalettesById.data)
       setDataPalette(resultPalettesById.data)
       setPieChartData(()=>{
         function setBackGroundColor (){

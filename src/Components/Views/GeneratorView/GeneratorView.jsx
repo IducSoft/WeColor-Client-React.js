@@ -32,7 +32,6 @@ import Modal from "../../../utils/Modal.jsx";
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
 
-
   const {
     hexPalette,
     rgb: {},

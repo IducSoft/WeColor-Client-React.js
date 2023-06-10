@@ -4,7 +4,9 @@ import Palette from './Palette';
 
 const RenderResultPalettes = () => {
   const {typeSearch, resultPalettesAll} = useSelector((state)=>state.explorePalettes);
-  console.log(resultPalettesAll)
+  
+  //console.log(resultPalettesAll)
+
   return (
     <>
     <div className='w-full mx-auto text-center mb-9 mt-9'>{typeSearch}</div>
