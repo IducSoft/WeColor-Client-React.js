@@ -44,6 +44,8 @@ const PrimarySearchAppBar = ({ check, change, show, setShow, isMobile }) => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
 
+  console.log(currentUser)
+
   const signOut = () => {
     cleanCookies();
     dispatch(logout());
@@ -275,6 +277,8 @@ const NotLoggedRenderMobileMenu = ({ check, handleMobileMenuClose }) => {
 };
 
 const LoggedRenderMobileMenu = ({ check, handleMobileMenuClose }) => {
+
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <div>
       <Link
@@ -317,6 +321,7 @@ const LoggedRenderMobileMenu = ({ check, handleMobileMenuClose }) => {
           <p>Explore</p>
         </MenuItem>
       </Link>
+      {currentUser ? (<>   
       <Link to="/" style={{ textDecoration: "none", color: "#5CAB7D" }}>
         <MenuItem onClick={handleMobileMenuClose}>
           <IconButton
@@ -331,6 +336,7 @@ const LoggedRenderMobileMenu = ({ check, handleMobileMenuClose }) => {
           <p>Dashboard</p>
         </MenuItem>
       </Link>
+      </>):(<></>)}
     </div>
   );
 };
