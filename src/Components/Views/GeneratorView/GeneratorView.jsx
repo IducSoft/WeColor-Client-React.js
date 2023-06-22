@@ -298,7 +298,6 @@ const GeneratorView = () => {
             </span>
               <Divider orientation="vertical"  flexItem />
             <span style={{width:"30%"}} >
-              <BsShare style={{alignSelf:"center", paddingTop:"2px",fontSize:"25px"}} />
               <BasicMenu/>
             </span>
           </div>

@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 //React icons
 import { GrDocumentPdf } from "react-icons/gr"
 import {AiOutlineLink,AiOutlinePicture} from "react-icons/ai"
-
+import { BsShare } from "react-icons/bs";
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,6 +30,7 @@ export default function BasicMenu() {
         onClick={handleClick}
         style={{color:"black", fontWeight:"700"}}
       >
+                <BsShare style={{alignSelf:"center", paddingTop:"2px",fontSize:"25px"}} />
         Export
       </Button>
       <Menu
