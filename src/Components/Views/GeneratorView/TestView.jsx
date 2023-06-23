@@ -13,8 +13,8 @@ import { CSS } from "@dnd-kit/utilities";
     const style = {
         transform: CSS.Transform.toString(transform),
         transition:{
-            duration: 800, // milliseconds
-            easing: 'cubic-bezier(0.42, 0, 0.58, 1)',
+            duration: 1000, // milliseconds
+            easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
           },
         border:"0.5px solid gray"
     }
