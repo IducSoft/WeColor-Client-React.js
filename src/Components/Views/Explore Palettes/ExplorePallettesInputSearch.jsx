@@ -13,7 +13,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
   const [searchQuery, setSearchQuery] = useState("")
   const dispatch = useDispatch();
   const url = "https://wecolor-api-rest.onrender.com/api";
-  //const {resultPalettesAll} = useSelector((state)=>state.explorePalettes);
+  const {resultPalettesAll} = useSelector((state)=>state.explorePalettes);
   //console.log(resultPalettesAll)
   
   //Validation Schema
@@ -23,7 +23,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
   });
   
   useEffect(()=>{
-    if(filter ==="all"){
+    if(filter ==="all" && resultPalettesAll.length === 0){
       getAllPalettes();
     }
   }, [])

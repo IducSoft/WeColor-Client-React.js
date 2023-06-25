@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Palette = ({palette}) => {
-    console.log(palette)
+    //console.log(palette)
     return (
         <div className="col-span-4 md:col-span-1 text-center rounded border-y-stone-950" >
             <Link to={`/paletteDetail/${palette._id}`}>

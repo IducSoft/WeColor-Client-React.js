@@ -44,7 +44,7 @@ const PrimarySearchAppBar = ({ check, change, show, setShow, isMobile }) => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
 
-  console.log(currentUser)
+  //console.log(currentUser)
 
   const signOut = () => {
     cleanCookies();
