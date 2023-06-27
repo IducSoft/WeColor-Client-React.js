@@ -7,7 +7,7 @@ import copy from "copy-to-clipboard";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsShare } from "react-icons/bs";
 import { BiCopy,BiUndo, BiRedo } from "react-icons/bi";
-import { MdDragHandle } from "react-icons/md";
+import { MdDragIndicator } from "react-icons/md";
 import { IoMdRefresh } from "react-icons/io";
 
 //Material UI
@@ -25,13 +25,18 @@ import "./GeneratorView-styles.css";
 //Hooks 
 import useMobile from "../../../Hooks/useMobile"
 
+//Dnd-kit
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+
 //Components
 import BasicMenu from "./BasicMenu.jsx";
 import Modal from "../../../utils/Modal.jsx";
 
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
-
   const {
     hexPalette,
     rgb: {},
@@ -82,23 +87,26 @@ const ColorBox = ({ color, index, colorPalette }) => {
 
   function changePosition(colorPalette, pos, hex, color) {
     if (pos == null) {
+      console.log("pos null")
       return;
     } else {
-      colorPalette[pos] = { hexPalette: hex, rgb: color };
+      color.indexOfColor = pos;
+      colorPalette[pos] = { hexPalette: hex, rgb: color, indexOfColor: color.indexOfColor };
+
       console.log(colorPalette)
     }
   }
 
+  
 
 
   return (
     <>
       <Toaster position="bottom-center" />
       <div
-        style={{
+         style={{
           backgroundColor:
-            colorOfColorBox == null ? hexPalette : colorOfColorBox.hex,
-        }}
+          colorOfColorBox == null ? hexPalette : colorOfColorBox.hex}}
         className="color-box"
       >
         <h1 style={{fontSize:"28px"}}>
@@ -120,11 +128,6 @@ const ColorBox = ({ color, index, colorPalette }) => {
             }}
             onClick={handleCopy}
           />
-          <MdDragHandle
-            style={{
-              cursor: "pointer",
-            }}
-          />
         </div>
       </div>
     </>
@@ -134,7 +137,7 @@ const ColorBox = ({ color, index, colorPalette }) => {
 const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
   const url = import.meta.env.VITE_PROD_URL;
-  const [colorPalette, setColorPalette] = useState("");
+  const [colorPalette, setColorPalette] = useState([]);
   const isMobile = useMobile()
   const [modalOpen, setModalOpen]=useState(false);
   
@@ -217,13 +220,13 @@ const GeneratorView = () => {
       colorSeven.blue
     );
 
-    arrayOfColors.push({ hexPalette: hexOne, rgb: colorOne });
-    arrayOfColors.push({ hexPalette: hexTwo, rgb: colorTwo });
-    arrayOfColors.push({ hexPalette: hexThree, rgb: colorThree });
-    arrayOfColors.push({ hexPalette: hexFour, rgb: colorFour });
-    arrayOfColors.push({ hexPalette: hexFive, rgb: colorFive });
-    arrayOfColors.push({ hexPalette: hexSix, rgb: colorSix });
-    arrayOfColors.push({ hexPalette: hexSeven, rgb: colorSeven });
+    arrayOfColors.push({ hexPalette: hexOne, rgb: colorOne, indexOfColor:0 });
+    arrayOfColors.push({ hexPalette: hexTwo, rgb: colorTwo, indexOfColor:1 });
+    arrayOfColors.push({ hexPalette: hexThree, rgb: colorThree, indexOfColor:2 });
+    arrayOfColors.push({ hexPalette: hexFour, rgb: colorFour, indexOfColor:3 });
+    arrayOfColors.push({ hexPalette: hexFive, rgb: colorFive, indexOfColor:4 });
+    arrayOfColors.push({ hexPalette: hexSix, rgb: colorSix, indexOfColor:5 });
+    arrayOfColors.push({ hexPalette: hexSeven, rgb: colorSeven, indexOfColor:6 });
 
     function transformaRgbAHex(red, green, blue) {
       let hex = {
@@ -244,6 +247,16 @@ const GeneratorView = () => {
     const colors = palette.splice(0, 5);
     return colors;
   };
+
+  const handleDragEnd =(e)=>{
+
+
+  }
+
+  const handleDragStart = () =>{
+    console.log("START")
+  }
+
 
 
   const handleOpenAndCloseModal = ()=>{
@@ -302,8 +315,8 @@ const GeneratorView = () => {
             </span>
           </div>
         </div>
-        <div className="generator-box">
-          {(colorPalette.length === 0 ? [] : colorPalette).map(
+          <div className="generator-box">
+          {(colorPalette).map(
             (color, index) => {
               return (
                 <ColorBox

@@ -26,7 +26,7 @@ import { CSS } from "@dnd-kit/utilities";
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-         className="bg-white p-4 w-10/12 rounded-md shadow-md text-black my-2 ml-3" >
+         className="bg-white p-4 w-10/12 rounded-md shadow-md text-black grow" >
             <h1>{user.name}</h1>
             <span>{user.id}</span>
         </div>
@@ -45,6 +45,7 @@ const TestView = () => {
     ]);
 
     const handleDragEnd =(e)=>{
+      console.log("Dragged")
         const { active, over } = e
         console.log(active);
         console.log(over);

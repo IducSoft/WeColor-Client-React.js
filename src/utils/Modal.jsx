@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //Formik
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,9 +15,18 @@ import {useSelector} from "react-redux"
 //Material Icons
 import CloseIcon from '@mui/icons-material/Close';
 
+//React icons
+import { MdDragIndicator } from "react-icons/md";
+
 //react hot toast
 import toast, { Toaster } from "react-hot-toast";
 
+//Dnd-kit
+import { DndContext, closestCenter, closestCorners, rectIntersection } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, useSortable,
+   arrayMove,
+  horizontalListSortingStrategy, rectSwappingStrategy, rectSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 //Js cookie
 //import Cookies from "js-cookie";
@@ -25,9 +34,44 @@ import toast, { Toaster } from "react-hot-toast";
 const url = import.meta.env.VITE_PROD_URL;
 
 
+const DndBox = ({color}) =>{
+
+  const {attributes, listeners, setNodeRef, transform, transition} = useSortable(
+    {id:color.hexPalette}
+)
+
+const style = {
+  transform: CSS.Transform.toString(transform),
+  transition:{
+    duration: 800, // milliseconds
+    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+  },
+    height:"60px",
+    width:"60px",
+    backgroundColor:color.hexPalette,
+    margin:"3px",
+    position:"relative"   
+}
+
+  return(
+    <div
+    style={style}
+    ref={setNodeRef}
+    className='dnd-box px:1'>
+      <MdDragIndicator style={{position:"absolute", top:"2px", right:"2px"}}
+    {...attributes}
+    {...listeners}
+    />
+    </div>
+  )
+}
+
+
 const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
+  const [finalPalette, setFinalPalette] = useState(colorPalette)
   const { currentUser } = useSelector((state) => state.user);
   const { darkmode } = useSelector((state) => state.darkmode);
+
 //Validation Schema
   const required = "* Required field";
 
@@ -49,7 +93,7 @@ const savedColorPalette = {
   "userId":`${currentUser._id}`,
   "title":`${title}`,
   "desc":`${description}`,
-  "colors":colorPalette,
+  "colors":finalPalette,
   "tags":finalTags
 }
 
@@ -98,16 +142,56 @@ let options = {
   //return weColorToken
 //}
 
+const handleDragStart = () =>{
+  console.log("Start")
+  
+}
+
+const handleDragEnd = (e) =>{
+  console.log("END")
+  const { active, over } = e
+  console.log("Active: ", active);
+  console.log("Over: ", over);
+  console.log("Dragged")
+  //console.log("Esta es la position: ", pos)
+  console.log("Antes del dnd: ", finalPalette)
+
+  const oldIndex = finalPalette.findIndex( color => color.hexPalette == active.id )
+  const newIndex = finalPalette.findIndex( color => color.hexPalette == over.id )
+
+  console.log(oldIndex)
+  console.log(newIndex)
+
+
+    const newOrder = arrayMove(finalPalette, oldIndex, newIndex);
+    setFinalPalette(newOrder);
+    console.log("en handleDragEnd: ", newOrder)
+}
+
+
+const handleStart = (e) =>{
+  console.log("Start")
+  const { active, over } = e;
+  console.log("Active: ", active);
+  console.log("Over: ", over);
+
+
+
+}
 
 
  const takeOutSpaces = (array)=>{
   const newArray =  array.map(element =>
   element.trim()
+
 )
 return newArray;
  }
 
-    return ( <>
+
+
+
+return ( <>
     <div className='modal-container'>
            <h2 className='font-bold text-lg' >New Palette</h2>
        <CloseIcon style={{position:"absolute", top:"0%", right:"1%", cursor:"pointer"}} className='span'  onClick={handleOpenAndCloseModal} />
@@ -149,7 +233,7 @@ return newArray;
         >
           {({ errors }) => (
             <Form >
-              <div>
+              <div className='flex-col ml-2' >
               <label>Title:</label>
                 <Field
                   type="text"
@@ -164,7 +248,7 @@ return newArray;
                   }}
                 />
               </div>
-              <div>
+              <div className='flex-col ml-2' >
                 <label>Description:</label>
                 <Field
                   type="textarea"
@@ -179,7 +263,7 @@ return newArray;
                   }}
                 />
               </div>
-              <div>
+              <div className='flex-col ml-2' >
                 <label>Tags:</label>
                 <Field
                   type="text"
@@ -194,6 +278,21 @@ return newArray;
                   }}
                 />
               </div>
+                <label>Cambiar orden de los colores:</label>
+                <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} >
+                <SortableContext
+        items={finalPalette}
+        strategy={horizontalListSortingStrategy}
+        >
+              <div className='dnd-container-modal flex' >
+                {finalPalette.map((color, index)=>(
+                
+                  <DndBox color={color} key={index} />
+                  
+                ))}
+              </div>
+        </SortableContext>
+                </DndContext>
               <button type="submit" className="sign-button">
                 Save
               </button>
