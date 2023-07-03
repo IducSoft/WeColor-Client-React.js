@@ -229,7 +229,7 @@ const ExplorePallettesInputSearch = ({ index, store }) => {
         </Form>
       )}
     </Formik>
-   
+  
     </div>
   )
 }
