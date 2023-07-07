@@ -1,9 +1,38 @@
 import React from "react";
 import { Formik, Form, Field } from 'formik';
 import DeleteAccount from "./DeleteAccount";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 
 const UpdateProfile = () => {
+  const {currentUser} = useSelector((state)=> state.user);
+  const url = "https://wecolor-api-rest.onrender.com/api";
+  
+  const updateUserData = async ({fullname, country, occupation, biography, linkedin, twitter, instagram, portfolio})=>{
+
+    try {
+      const response = await axios.put(`${url}/users/${currentUser._id}`, {
+        withCredentials:true,
+        credentials:"include",
+        "name":fullname,
+        "country":country,
+        "occupation":occupation,
+        "biography":biography,
+        "linkedin":linkedin,
+        "twitter":twitter,
+        "instagram":instagram,
+        "portfolio":portfolio,
+        
+      });
+      
+      
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
 
   return (
       <Formik
@@ -17,8 +46,9 @@ const UpdateProfile = () => {
           instagram: '',
           portfolio: '',
         }}
-        onSubmit={(values, {resetForm}) => {
+        onSubmit={async (values, {resetForm}) => {
           console.log(values);
+          await updateUserData(values);
           resetForm();
         }}
       >

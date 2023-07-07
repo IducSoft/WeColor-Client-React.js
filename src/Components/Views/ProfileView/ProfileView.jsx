@@ -4,12 +4,14 @@ import lapiz from "../../../assets/lapiz.png";
 import { useSelector } from "react-redux";
 import {Link} from "react-router-dom"
 import UpdateProfile from "../UpdateProfile/UpdateProfile";
+import axios from "axios";
 
 const ProfileView = () => {
-
+  const url = "https://wecolor-api-rest.onrender.com/api";
   const {currentUser} = useSelector((state)=> state.user);
+  
   const [isEdit, setIsEdit] = useState(false)
-  console.log(currentUser)
+  //console.log(currentUser)
 
   return (
     <>
