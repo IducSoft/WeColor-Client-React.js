@@ -32,6 +32,7 @@ import GeneratorView from "./Components/Views/GeneratorView/GeneratorView";
 import ProfileView from "./Components/Views/ProfileView/ProfileView";
 import UpdateProfile from "./Components/Views/UpdateProfile/UpdateProfile";
 import Sidebar from "./Components/Sidebar/Sidebar";
+import TestView from "./Components/Views/GeneratorView/TestView"
 
 //Components
 import PrimarySearchAppBar from "../src/Components/Header/AppBar";
@@ -224,6 +225,20 @@ const SignOutRoutes = ({ location, pageTransition }) => {
             </motion.div>
           }
       ></Route>
+        <Route
+          path="/testview"
+          element={
+            <motion.div
+              className="page"
+              initial="out"
+              animate="in"
+              exit="out"
+              variants={pageTransition}
+            >
+              <TestView/>
+            </motion.div>
+          }
+      ></Route>
     </Routes>
   );
 };
@@ -355,6 +370,20 @@ const SignInRoutes = ({ location, pageTransition, loading }) => {
             )}
           </motion.div>
         }
+      ></Route>
+       <Route
+          path="/testview"
+          element={
+            <motion.div
+              className="page"
+              initial="out"
+              animate="in"
+              exit="out"
+              variants={pageTransition}
+            >
+              <TestView/>
+            </motion.div>
+          }
       ></Route>
     </Routes>
   );
