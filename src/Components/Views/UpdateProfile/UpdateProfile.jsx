@@ -11,27 +11,34 @@ const UpdateProfile = () => {
   
   const updateUserData = async ({fullname, country, occupation, biography, linkedin, twitter, instagram, portfolio})=>{
 
-    try {
-      const response = await axios.put(`${url}/users/${currentUser._id}`, {
-        withCredentials:true,
-        credentials:"include",
-        "name":fullname,
-        "country":country,
-        "occupation":occupation,
-        "biography":biography,
-        "linkedin":linkedin,
-        "twitter":twitter,
-        "instagram":instagram,
-        "portfolio":portfolio,
-        
-      });
-      
-      
-      console.log(response.data)
-    } catch (error) {
-      console.log(error);
-    }
+   console.log("testing")
+
+   try {
+    const response = await axios.put(`${url}/users/${currentUser._id}`,{
+      withCredentials:true,
+      credentials:"include",
+"user":{
+  "name":fullname,
+  "country":country,
+  "occupation":occupation,
+  "biography":biography,
+  "linkedin":linkedin,
+  "twitter":twitter,
+  "instagram":instagram,
+  "portfolio":portfolio,
+  "id":`${currentUser._id}`,
+},
+    });
+     
+    console.log(response.data)
+  } catch (error) {
+    console.log(error);
+  }
     
+  }
+
+  function decirHola() {
+    console.log("Hello")
   }
 
   return (
@@ -46,9 +53,8 @@ const UpdateProfile = () => {
           instagram: '',
           portfolio: '',
         }}
-        onSubmit={async (values, {resetForm}) => {
-          console.log(values);
-          await updateUserData(values);
+        onSubmit={(values, {resetForm}) => {
+        updateUserData(values)
           resetForm();
         }}
       >
