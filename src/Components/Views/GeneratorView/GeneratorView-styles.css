@@ -136,11 +136,8 @@ color: var(--error-color);
   justify-content: space-around;
   padding-right: 5px;
   padding-left: 5px;
-  border: 2px solid black;
 }
 
-.modal-container form div{
-}
 
 .modal-container form div label{
   align-self: start;

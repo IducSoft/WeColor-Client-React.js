@@ -42,10 +42,7 @@ const DndBox = ({color}) =>{
 
 const style = {
   transform: CSS.Transform.toString(transform),
-  transition:{
-    duration: 800, // milliseconds
-    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-  },
+  transition:transition,
     height:"60px",
     width:"60px",
     backgroundColor:color.hexPalette,
