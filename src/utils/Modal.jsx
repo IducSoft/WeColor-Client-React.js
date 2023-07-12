@@ -15,6 +15,10 @@ import {useSelector} from "react-redux"
 //Material Icons
 import CloseIcon from '@mui/icons-material/Close';
 
+//UI Material
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 //React icons
 import { MdDragIndicator } from "react-icons/md";
 
@@ -68,6 +72,7 @@ const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
   const [finalPalette, setFinalPalette] = useState(colorPalette)
   const { currentUser } = useSelector((state) => state.user);
   const { darkmode } = useSelector((state) => state.darkmode);
+  const [isSaving, setIsSaving] = useState(false)
 
 //Validation Schema
   const required = "* Required field";
@@ -80,6 +85,7 @@ const Modal = ({handleOpenAndCloseModal, colorPalette}) => {
 
 
   const handlePaletteCreation= async(newPalette)=>{
+    setIsSaving(true)
 const {title, description, tags}=newPalette;
 
 const arrayTags = tags.split(",");
@@ -112,8 +118,6 @@ let options = {
       withCredentials:true,
       credentials:"include"
     });
-    console.log(data)
-
     toast.success(
       "The palette has been saved!",
       {
@@ -124,7 +128,8 @@ let options = {
         },
         position:"top-center"
       }
-    );
+      );
+      setIsSaving(false)
     handleOpenAndCloseModal()
     if(error) throw error
   } catch (error) {
@@ -139,41 +144,16 @@ let options = {
   //return weColorToken
 //}
 
-const handleDragStart = () =>{
-  console.log("Start")
-  
-}
 
 const handleDragEnd = (e) =>{
-  console.log("END")
   const { active, over } = e
-  console.log("Active: ", active);
-  console.log("Over: ", over);
-  console.log("Dragged")
-  //console.log("Esta es la position: ", pos)
-  console.log("Antes del dnd: ", finalPalette)
-
   const oldIndex = finalPalette.findIndex( color => color.hexPalette == active.id )
   const newIndex = finalPalette.findIndex( color => color.hexPalette == over.id )
 
-  console.log(oldIndex)
-  console.log(newIndex)
 
 
     const newOrder = arrayMove(finalPalette, oldIndex, newIndex);
     setFinalPalette(newOrder);
-    console.log("en handleDragEnd: ", newOrder)
-}
-
-
-const handleStart = (e) =>{
-  console.log("Start")
-  const { active, over } = e;
-  console.log("Active: ", active);
-  console.log("Over: ", over);
-
-
-
 }
 
 
@@ -275,7 +255,7 @@ return ( <>
                   }}
                 />
               </div>
-                <label>Cambiar orden de los colores:</label>
+                <label>Cambiar orden de los colores - Arrastre:</label>
                 <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} >
                 <SortableContext
         items={finalPalette}
@@ -291,7 +271,15 @@ return ( <>
         </SortableContext>
                 </DndContext>
               <button type="submit" className="sign-button">
-                Save
+                {isSaving? (   
+                   <Box sx={{ display: 'flex', justifyContent:"center", alignItems:"center" }}>
+                  <CircularProgress color="inherit" size={20} />
+                  </Box>
+                    ):(
+                      <>
+                      Save
+                      </>
+                    )}
               </button>
             </Form>
           )}

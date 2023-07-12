@@ -1,0 +1,115 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --purple-color: #6c60ff;
+    --darkGray-color: #181818;
+    --purple-active-hover: #918ae2;
+    --darkGray-active-hover: #2f2f2f;
+    --error-color: #db324d;
+    --auth-container-background: #ededed;
+  }
+
+  .dashboard-container{
+    border: 2px solid blue;
+    min-height: 92.8vh;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+  }
+
+  
+  .dashboard-container .column-one{
+    width:30%;
+    border:2px solid green;
+    height: 20rem;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: start;
+    justify-items: start;
+  }
+
+  .dashboard-container .column-two{
+    width: 100%;
+    border:2px solid green;
+    height: 90vh;
+    padding: .9375rem;
+}
+
+.dashboard-container .column-two .title{
+    font-size: 35px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.dashboard-container .column-two .title h3{
+    font-size: 28px;
+    font-weight: 900;
+    text-align: start;
+    color:rgb(80, 80, 80);
+}
+
+.dashboard-container .column-two .grid-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    justify-items: center;
+    align-self: center;
+    place-items: center;
+    height: 80%;
+    overflow-y: auto;
+    grid-gap: 10px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    @media (max-width: 767px) {
+        grid-template-columns: auto;
+        border:2px solid black;
+      }
+    
+}
+
+  .dashboard-container .column-two .grid-container .color-palette{
+    border:2px solid orange;
+    height: 11rem;
+    width: 400px;
+    margin-bottom: .75rem;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+  .grid-container::-webkit-scrollbar {
+  width: 0.5em;
+  background-color: transparent;
+}
+
+.grid-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+    overflow-x: hidden;
+  }
+
+  .dashboard-container .column-two .grid-container .color-palette{
+    border:2px solid orange;
+    height: 11rem;
+    width: 350px;
+    margin-bottom: .75rem;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+}
+
+@media (min-width: 50rem) {
+    .grid-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

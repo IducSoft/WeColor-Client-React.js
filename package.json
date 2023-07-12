@@ -19,6 +19,7 @@
     "@fontsource/readex-pro": "^4.5.13",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.10.15",
+    "@mui/styles": "^5.14.0",
     "@reduxjs/toolkit": "^1.9.1",
     "@sweetalert2/theme-dark": "^5.0.15",
     "@testing-library/jest-dom": "^5.16.5",
