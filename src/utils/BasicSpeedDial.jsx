@@ -21,7 +21,7 @@ const actions = [
 
 export default function BasicSpeedDial() {
   return (
-    <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1,position:"absolute", right:"5px" }}>
+    <Box sx={{ height: 320, transform: 'translateZ(0px)', flexGrow: 1,position:"absolute", right:"5px", zIndex:"10" }}>
       <SpeedDial
         ariaLabel="SpeedDial basic example"
         icon={<SpeedDialIcon />}

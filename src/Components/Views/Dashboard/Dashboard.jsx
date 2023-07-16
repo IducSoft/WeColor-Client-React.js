@@ -13,10 +13,20 @@ import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 
 //Components
-import BasicSpeedDial from "../../../utils/BasicSpeedDial"
+import BasicSpeedDial from "../../../utils/BasicSpeedDial";
+import BasicBreadcrumbs from "../../../utils/BasicBreadcrumbs";
+import BasicTabs from "../../../utils/BasicTabs";
+import Tabs from "../../../utils/Tabs"
 
 //Css
 import "./Dashboard-styles.css"
+
+const colorPaletteElement = ()=>{
+  return(
+    <div className="color-palette"></div>
+  )
+}
+
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -52,20 +62,8 @@ const Dashboard = () => {
         </div>
         <div className="column-two">
         <div className="title">
-          <h1>My Palettes</h1>
-          <h3>Favorites</h3>
+         <Tabs/>
         </div>
-          <div className="grid-container">
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-            <div className="color-palette"></div>
-             <div className="color-palette"></div>
-          </div>
         </div>
       </div>
     </>
