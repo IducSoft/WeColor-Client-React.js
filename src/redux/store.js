@@ -3,7 +3,7 @@ import userReducer from "./userSlice";
 import paletteReducer from "./paletteSlice";
 import darkModeReducer from "./darkModeSlice";
 import explorePalettesReducer from "./resultPalettesFromExploreSlice";
-
+import profileDataUserSlice from "./profileDataUserSlice";
 
 import {
   persistStore,
@@ -29,6 +29,7 @@ const rootReducer = combineReducers({
   palette: paletteReducer,
   darkmode: darkModeReducer,
   explorePalettes: explorePalettesReducer,
+  profileDataUser:profileDataUserSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
