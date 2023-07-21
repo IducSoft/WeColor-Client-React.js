@@ -1,21 +1,24 @@
 import React,{useEffect} from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-
+import { CircularProgress} from '@mui/material';
+import { updateData, updateFalse } from '../../../redux/profileDataUserSlice';
 
 const DataUsersProfile = () => {
 
     const dispatch = useDispatch();
     const profileDataUser = useSelector(state => state.profileDataUser);
-    const userId = useSelector(state => state.user);
-    console.log(profileDataUser)
+    const {currentUser} = useSelector(state => state.user);
+    //console.log(profileDataUser)
     const url = "https://wecolor-api-rest.onrender.com/api";
     
     const getProfileDataUpdated = async () => {
         
         try{
-            const response = await axios.get(`${url}/api/users/find/${userId._id}`);
-            console.log(response.data);
+            const response = await axios.get(`${url}/users/find/${currentUser._id}`);
+            dispatch(updateFalse());
+            dispatch(updateData(response.data))
+            
         }catch(error){
             console.log(error)
         }
@@ -37,6 +40,14 @@ const DataUsersProfile = () => {
                 ) : (
                     <div className="flex flex-col items-center justify-start px-4 py-6">
                         <h2 className="text-center font-bold text-[1.5rem] mt-5">BIO</h2>
+                        <div className="mt-5">
+                            <span>name: </span>
+                            <span>{profileDataUser.userData.name}</span>
+                        </div>
+                        <div className="mt-5">
+                            <span>Country: </span>
+                            <span>{profileDataUser.userData.country}</span>
+                        </div>
                         <div className="mt-5">
                             <span>OCCUPATION: </span>
                             <span>{profileDataUser.userData.occupation}</span>

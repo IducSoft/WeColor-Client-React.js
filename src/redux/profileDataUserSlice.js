@@ -18,7 +18,8 @@ export const profileDataUserSlice = createSlice({
     },
     reducers:{
         updateData: (state, {payload})=>{
-            console.log(payload)
+            //console.log(payload)
+            state.userData = {...payload}
         },
         updateFalse:(state)=>{
             state.isUpdated = false;
