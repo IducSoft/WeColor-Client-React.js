@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import DeleteAccount from "./DeleteAccount";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTrue } from "../../../redux/profileDataUserSlice";
@@ -144,7 +143,7 @@ const UpdateProfile = () => {
 
           </div>
           <hr/>
-          <DeleteAccount/>
+          
         </Form>
         )}
       </Formik>

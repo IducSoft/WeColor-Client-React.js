@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { CircularProgress} from '@mui/material';
 import { updateData, updateFalse } from '../../../redux/profileDataUserSlice';
+import DeleteAccount from '../UpdateProfile/DeleteAccount';
 
 const DataUsersProfile = () => {
 
@@ -75,6 +76,7 @@ const DataUsersProfile = () => {
                     </div>
                 )
             }
+            <DeleteAccount/>
         </>
     
     )
