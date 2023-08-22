@@ -4,10 +4,8 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 
-
 const DeleteAccount = () => {
   const url = "https://wecolor-api-rest.onrender.com/api";
-
   const validationSchema = Yup.object().shape({
     email: Yup.string()
     .email("Please enter a valid email")
@@ -18,18 +16,31 @@ const DeleteAccount = () => {
 
   const deleteAccount = async ({email, password})  =>{
 
+    let headerList = {
+      "Accept": "*/*",
+      "Content-Type":"application/json",
+    }
+    let options = {
+      url: `${url}/users/delete/account`,
+      method:"DELETE",
+      headers:headerList,
+      data: {
+        email,
+        password,
+      }
+    }
+
     try{
-      const response = await axios.delete(`${url}/users/delete/account`,{
+      const {data, error} = await axios.request(options,{
         withCredentials: true,
         credentials: "include",
-        email, 
-        password,
       });
-      console.log(response)
+      console.log(data, error);
       
     }catch(error){
       console.log(error)
     }
+    
   }
 
     return (
