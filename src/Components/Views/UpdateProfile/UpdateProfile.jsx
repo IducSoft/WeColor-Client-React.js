@@ -6,11 +6,11 @@ import { updateTrue } from "../../../redux/profileDataUserSlice";
 import * as  Yup from 'yup';
 import Swal from "sweetalert2";
 
-
 const UpdateProfile = () => {
   const {currentUser} = useSelector((state)=> state.user);
   const url = "https://wecolor-api-rest.onrender.com/api";
   const dispatch = useDispatch();
+
   const validationSchema = Yup.object().shape({
     fullname: Yup.string().required('Full Name is required'),
     country: Yup.string().required('Country is required'),
@@ -44,6 +44,7 @@ const UpdateProfile = () => {
       Swal.fire(
         `${response.data.message}`,
       )
+      
       //console.log(response.data)
     } catch (error) {
       console.log(error);

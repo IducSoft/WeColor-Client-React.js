@@ -2,9 +2,17 @@ import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import Swal from "sweetalert2";
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/userSlice';
+import { useNavigate } from "react-router-dom";
 
 
 const DeleteAccount = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
   const url = "https://wecolor-api-rest.onrender.com/api";
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -35,10 +43,21 @@ const DeleteAccount = () => {
         withCredentials: true,
         credentials: "include",
       });
-      console.log(data, error);
+      
+      Swal.fire({
+        title: `${data.message}`,
+        icon: "success"
+      });
+      dispatch(logout());
+      navigate("/", { replace: true });
       
     }catch(error){
-      console.log(error)
+      
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data.message}`,
+      });
     }
     
   }
@@ -51,7 +70,7 @@ const DeleteAccount = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={ async (values, {resetForm}) => {
-          console.log(values);
+          
           await deleteAccount(values)
           resetForm();
         }}
