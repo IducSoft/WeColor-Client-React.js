@@ -48,7 +48,6 @@ const SignInForm = () => {
     const { email, password } = user;
 
     dispatch(loginStart());
-
     try {
       const userLogged = await axios.post(
         `${url}/auth/signin`,
