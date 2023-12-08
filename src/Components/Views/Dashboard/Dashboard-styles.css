@@ -52,6 +52,7 @@
     grid-gap: 10px;
     padding-right: 1rem;
     padding-left: 1rem;
+    padding-top:2rem;
 }
 
 .grid-container .color-palette{
@@ -74,14 +75,14 @@
 
 @media (max-width: 500px) {
   .grid-container {
-    grid-template-columns: auto;
+    grid-template-columns: repeat(1,1fr);
     overflow-x: hidden;
   }
 
   .dashboard-container .column-two .grid-container .color-palette{
     border:2px solid orange;
     height: 11rem;
-    width: 350px;
+    width: 100%;
     margin-bottom: .75rem;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
@@ -89,10 +90,18 @@
 
 }
 
+@media (min-width: 56.25rem) {
+  .dashboard-container .column-two .grid-container {
+      border:2px solid rgb(36, 36, 68);
+      grid-template-columns:repeat(2,1fr);
+  }
+}
+
+
 @media (min-width: 72rem) {
-  .grid-container {
-      border:2px solid blue;
-      grid-template-columns:auto auto;
+  .dashboard-container .column-two .grid-container {
+      border:2px solid rgb(36, 36, 68);
+      grid-template-columns:repeat(3,1fr);
   }
 }
 
@@ -151,13 +160,6 @@
 .tabs:not(:last-child){
   border-right: 1px solid rgba(0, 0, 0, 0.274);
 }
-
-.active-tabs  {
-  background: #5CBA2A;
-  border-bottom: 1px solid transparent;
-  color:white
-}
-
 
 
 .tabs-container button {
@@ -228,7 +230,11 @@
 }
 
 .active-btn{
-  background-color: #5CBA2A;
+  background-color: var(--purple-color);
   border:0.2px solid gray;
   color:white
+}
+
+.css-vupmbb-MuiButtonBase-root-MuiFab-root-MuiSpeedDial-fab{
+background-color:green;
 }

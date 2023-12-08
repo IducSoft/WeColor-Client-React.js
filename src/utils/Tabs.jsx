@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 //Components
 
 //Hooks
 import  useEsMobil  from "./../Hooks/useMobile";
+import axios from "axios";
+
+const url = import.meta.env.VITE_PROD_URL;
 
 
-
-function Tabs() {
+function Tabs({userId}) {
   const [toggleState, setToggleState] = useState(1);
   const [driver, setDriver] = useState(1);
+  const [favsPalettes, setFavsPalettes] = useState([])
+  const [savedPalettes, setSavedPalettes] = useState([])
 
   const isMobile = useEsMobil();
 
@@ -21,10 +25,58 @@ function Tabs() {
     setDriver(index);
   };
 
+  /**
+   * 
+ 
+  useEffect(() => {
+   const getFavs = async ()=>{
+  
+    let headerList = {
+      "Accept":"",
+      "Content-Type":"application/json"
+    }
+  
+    let user = {
+        "id":`${userId}`
+    }
+    
+  
+    let options ={
+      url: `${url}/users/get/favorites`,
+      method:"GET",
+      headers:headerList,
+      user:user
+    }
+  
+    console.log(userId)
+  
+    
+    try {
+      console.log("hello")
+      const favs = await axios.request(options,
+      {
+        withCredentials:true,
+        credentials:"include",
+      },
+      )
+  
+      console.log(favs)
+    } catch (error) {
+      console.log(error)
+    }
+   }
+  
+   getFavs()
+  }, []) 
+  
+  */
+
+
+
   return (
       <div className="tabs-container">
-          <div className="flex items-center justify-between">
-            <div className="flex  w-full items-center justify-between">
+          <div className="flex items-center justify-center">
+            <div className="flex  w-3/5 items-center justify-between">
               <button
                 onClick={() => toggleDriver(1)}
                 style={{
@@ -62,7 +114,10 @@ function Tabs() {
             </div>
           </div>
           <div className="grid-container">
-         <div className="color-palette"></div>
+            {
+              driver === 1 ? (
+               <>
+                   <div className="color-palette"></div>
          <div className="color-palette"></div>
          <div className="color-palette"></div>
          <div className="color-palette"></div>
@@ -70,6 +125,20 @@ function Tabs() {
          <div className="color-palette"></div>
          <div className="color-palette"></div>       
          <div className="color-palette"></div>
+               </>
+              ):(
+                <>
+                    <div className="color-palette"></div>
+         <div className="color-palette"></div>
+         <div className="color-palette"></div>
+         <div className="color-palette"></div>
+         <div className="color-palette"></div>
+         <div className="color-palette"></div>
+         <div className="color-palette"></div>       
+         <div className="color-palette"></div>
+                </>  
+              )
+            }
           </div>
         </div>
   );
