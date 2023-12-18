@@ -98,8 +98,6 @@ const ColorBox = ({ color, index, colorPalette }) => {
   }
 
   
-
-
   return (
     <>
       <Toaster position="bottom-center" />
@@ -143,8 +141,8 @@ const GeneratorView = () => {
   
 
   useEffect(() => {
-    const arrayOfColors = [];
 
+    const arrayOfColors = [];
     const min = 0;
     const max = 255;
 
@@ -275,7 +273,7 @@ const GeneratorView = () => {
 
   return (
     <>
-      <div className="generator-container">
+      <div className="generator-container" id="generator-container">
         {modalOpen?(
         <AnimatePresence>
            <motion.div

@@ -10,22 +10,25 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 import { CircularProgress, Switch } from '@mui/material';
 import {FiCopy} from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { saveDataPalette } from '../../../redux/paletteDetailsToRenderSlice';
+import { useDispatch } from 'react-redux';
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 const PaletteDetails = () => {
 
   const {id} = useParams();
   const currenUserId = useSelector((state)=>state.user.currentUser._id)
   const url = "https://wecolor-api-rest.onrender.com/api";
-  console.log(id, currenUserId)
-
+  const navigate = useNavigate();
   const [dataPalette, setDataPalette] =  useState(null);
   const [pieChartData, setPieChartData] = useState(null);
   const [rbgOrhex, setRgbOrhex] = useState(true);
+  const dispatch = useDispatch();
+
 
   const likePalette = async ()=>{
-
     try {
       const response = await axios.put(`${url}/users/like/${id}`, {
         withCredentials:true,
@@ -47,7 +50,6 @@ const PaletteDetails = () => {
   }
 
   const addPaletteToFavorite = async () => {
-
     try {
       const response = await axios.put(`${url}/users/favorites/${id}`, {
         withCredentials:true,
@@ -67,10 +69,15 @@ const PaletteDetails = () => {
     }
   }
 
+  const navigateToGenerator =(data)=>{
+    dispatch(saveDataPalette(data))
+    navigate("/generator");
+  }
+
+
   const getPaletteById = async () => {
     try {
       const resultPalettesById = await axios.get(`${url}/palettes/${id}`);
-      //console.log(resultPalettesById.data)
       setDataPalette(resultPalettesById.data)
       setPieChartData(()=>{
         function setBackGroundColor (){
@@ -121,6 +128,8 @@ const PaletteDetails = () => {
     getPaletteById();
   },[]);
 
+  
+
   return (
     <div>
       {
@@ -158,8 +167,8 @@ const PaletteDetails = () => {
                 
               </div>
               <div className='w-[4rem] mx-3'>
-                <button>
-                  <img src={paletaDeColor} alt='paleta de color' />
+                <button onClick={()=>{navigateToGenerator(dataPalette)}}>
+                    <img src={paletaDeColor} alt='paleta de color' />
                 </button>
                 
               </div>
