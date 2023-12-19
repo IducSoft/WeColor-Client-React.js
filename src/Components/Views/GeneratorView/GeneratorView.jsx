@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from "react";
-
 //Copy to clipboard
 import copy from "copy-to-clipboard";
-
 //React icons
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsShare } from "react-icons/bs";
+//import { BsShare } from "react-icons/bs";
 import { BiCopy,BiUndo, BiRedo } from "react-icons/bi";
-import { MdDragIndicator } from "react-icons/md";
+//import { MdDragIndicator } from "react-icons/md";
 import { IoMdRefresh } from "react-icons/io";
-
 //Material UI
 import Divider from '@mui/material/Divider';
-
 //Framer motion
 import { AnimatePresence, motion } from "framer-motion";
-
 //React hot toast
 import { toast, Toaster } from "react-hot-toast";
-
 //Css
 import "./GeneratorView-styles.css";
-
 //Hooks 
 import useMobile from "../../../Hooks/useMobile"
-
 //Dnd-kit
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-
 //Components
 import BasicMenu from "./BasicMenu.jsx";
 import Modal from "../../../utils/Modal.jsx";
+import { useSelector } from "react-redux";
+
+
+
 
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
@@ -137,8 +131,11 @@ const GeneratorView = () => {
   const url = import.meta.env.VITE_PROD_URL;
   const [colorPalette, setColorPalette] = useState([]);
   const isMobile = useMobile()
-  const [modalOpen, setModalOpen]=useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const {allOfDataOfPalette} = useSelector((state) => state.allDataOfPalette);
   
+  //console.log(allOfDataOfPalette)
+
 
   useEffect(() => {
 
