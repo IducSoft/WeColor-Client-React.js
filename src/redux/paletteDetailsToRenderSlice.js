@@ -11,9 +11,12 @@ export const allOfDataOfPaletteSlice = createSlice({
     reducers: {
         saveDataPalette: (state, {payload}) =>{
             state.allOfDataOfPalette = {...payload};
-        }
+        },
+        deleteDataPalette:(state) => {
+            state.allOfDataOfPalette = {};
+        },
     },
 });
 
-export const { saveDataPalette } = allOfDataOfPaletteSlice.actions;
+export const { saveDataPalette, deleteDataPalette } = allOfDataOfPaletteSlice.actions;
 export default allOfDataOfPaletteSlice.reducer;
