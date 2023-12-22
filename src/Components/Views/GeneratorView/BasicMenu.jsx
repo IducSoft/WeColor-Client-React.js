@@ -5,6 +5,12 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+//Components
+import PalettePdf from "./PalettePdf";
+
+//React PDF
+import { PDFDownloadLink } from "@react-pdf/renderer";
+
 //React icons
 import { GrDocumentPdf } from "react-icons/gr"
 import {AiOutlineLink,AiOutlinePicture} from "react-icons/ai"
@@ -42,7 +48,16 @@ export default function BasicMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}><GrDocumentPdf style={{marginRight:"4px"}}/> pdf</MenuItem>
+        <MenuItem onClick={handleClose}><GrDocumentPdf style={{marginRight:"4px"}}/>
+        
+        <PDFDownloadLink
+                document={<PalettePdf />}
+                fileName="YourPalette.pdf"
+              >
+                PDF
+              </PDFDownloadLink>
+
+         </MenuItem>
         <MenuItem onClick={handleClose}><AiOutlinePicture style={{marginRight:"4px"}}/> png</MenuItem>
         <MenuItem onClick={handleClose}><AiOutlineLink style={{marginRight:"4px"}}/> link</MenuItem>
       </Menu>

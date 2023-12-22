@@ -12,7 +12,6 @@
 }
 
 .generator-container {
-  border: 2px solid blue;
   min-height: 92.8vh;
   justify-content: center;
   display: flex;
@@ -24,7 +23,6 @@
 .generator-container .title {
   width: 100%;
   height: 6%;
-  border: 4px solid red;
   display: flex;
   justify-content:flex-end;
   flex-direction: row;
@@ -32,7 +30,6 @@
 }
 
 .generator-container .title .icons{
-  border: 1px solid blue;
   width: 30%;
   display: flex;
   justify-content: space-around;
@@ -63,7 +60,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 4px solid rgb(252, 250, 76);
   width: 100%;
   height: 87vh;
 }
@@ -203,7 +199,6 @@ margin-top: 8px;
   .generator-container .title {
     width: 100%;
     height: 6%;
-    border: 2px solid red;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
@@ -212,7 +207,6 @@ margin-top: 8px;
   }
   
   .generator-container .title .icons{
-    border: 1px solid blue;
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -255,7 +249,6 @@ margin-top: 8px;
   .generator-container .title {
     width: 100%;
     height: 6%;
-    border: 2px solid red;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
@@ -264,7 +257,6 @@ margin-top: 8px;
   }
   
   .generator-container .title .icons{
-    border: 1px solid blue;
     width: 100%;
     display: flex;
     justify-content: space-around;
