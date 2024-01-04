@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 
 //Components
 import { SwalError } from "../../../../utils/Swal";
+import { checkPasswordStrength } from "../utilities/checkPasswordStrength";
 
 //const url = import.meta.env.VITE_DEV_URL;
 
@@ -71,7 +72,17 @@ const SignUpForm = () => {
     password: Yup.string()
       .min(8, "Must be atleast 8 characters long")
       .required(required)
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."),
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.")
+      .test('passwordStrength', 'La contraseña debe ser lo suficientemente fuerte', function (value) {
+        const { path, createError } = this;
+        //console.log(this.parent)
+        const strength = checkPasswordStrength(this.parent.password);
+        //console.log(strength)
+        if (strength !== 'Extremadamente difícil. ') {
+          createError({ path, message: 'La contraseña debe ser lo suficientemente fuerte' });
+        }
+        return true;
+      }),
     confirmPassword: Yup.string()
       .min(8, "Must be atleast 8 characters long")
       .required(required)
@@ -122,6 +133,7 @@ const SignUpForm = () => {
                 name="name"
                 component={() => {
                   return <div className="error">{errors.name}</div>;
+                  
                 }}
               />
             </div>
