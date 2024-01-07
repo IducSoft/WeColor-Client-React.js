@@ -2,7 +2,7 @@ import React,{useEffect} from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { CircularProgress} from '@mui/material';
-import { updateData, updateFalse } from '../../../redux/profileDataUserSlice';
+import { updateData, updateFalse, updateTrue } from '../../../redux/profileDataUserSlice';
 import DeleteAccount from '../UpdateProfile/DeleteAccount';
 
 const DataUsersProfile = () => {
@@ -12,7 +12,7 @@ const DataUsersProfile = () => {
     const {currentUser} = useSelector(state => state.user);
     //console.log(profileDataUser)
     const url = "https://wecolor-api-rest.onrender.com/api";
-    
+   
     const getProfileDataUpdated = async () => {
         
         try{
@@ -28,6 +28,10 @@ const DataUsersProfile = () => {
     useEffect(()=>{
         if(profileDataUser.isUpdated === true){
             getProfileDataUpdated();
+        }
+
+        return ()=>{
+            dispatch(updateTrue());
         }
     },[])
 
