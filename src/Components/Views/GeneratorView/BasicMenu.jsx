@@ -16,8 +16,23 @@ import { GrDocumentPdf } from "react-icons/gr"
 import {AiOutlineLink,AiOutlinePicture} from "react-icons/ai"
 import { BsShare } from "react-icons/bs";
 
+//Redux
+import {useSelector} from "react-redux";
+
+
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { paletteForPdf } = useSelector((state) => state.paletteForPdf);
+
+  const valuesArray = [];
+  for (const key in paletteForPdf) {
+    if (Object.prototype.hasOwnProperty.call(paletteForPdf, key)) {
+      valuesArray.push(paletteForPdf[key].hexPalette);
+    }
+  }
+  
+
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +66,7 @@ export default function BasicMenu() {
         <MenuItem onClick={handleClose}><GrDocumentPdf style={{marginRight:"4px"}}/>
         
         <PDFDownloadLink
-                document={<PalettePdf />}
+                document={<PalettePdf colors={valuesArray} />}
                 fileName="YourPalette.pdf"
               >
                 PDF

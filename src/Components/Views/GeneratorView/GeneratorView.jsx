@@ -30,6 +30,9 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
+//Redux
+import { useDispatch } from "react-redux";
+import { saveData } from "../../../redux/PaletteToPdfSlice.js"
 
 //Components
 import BasicMenu from "./BasicMenu.jsx";
@@ -138,6 +141,7 @@ const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
   const url = import.meta.env.VITE_PROD_URL;
   const [colorPalette, setColorPalette] = useState([]);
+  const dispatch = useDispatch();
   const isMobile = useMobile()
   const [modalOpen, setModalOpen]=useState(false);
   
@@ -238,6 +242,7 @@ const GeneratorView = () => {
     }
 
     setColorPalette(prepareColorPalette(arrayOfColors));
+    console.log("HGELO")
     console.log(colorPalette);
     return () => {};
   }, [changeColors]);
@@ -245,6 +250,7 @@ const GeneratorView = () => {
 
   const prepareColorPalette = (palette) => {
     const colors = palette.splice(0, 5);
+    dispatch(saveData(colors))
     return colors;
   };
 
