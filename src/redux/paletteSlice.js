@@ -6,6 +6,7 @@ const initialState = {
   error: false,
 };
 
+
 export const paletteSlice = createSlice({
   name: "palette",
   initialState,
@@ -17,5 +18,4 @@ export const paletteSlice = createSlice({
 });
 
 export const { loginStart } = paletteSlice.actions;
-
 export default paletteSlice.reducer;

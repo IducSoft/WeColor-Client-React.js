@@ -4,6 +4,8 @@ import paletteReducer from "./paletteSlice";
 import darkModeReducer from "./darkModeSlice";
 import explorePalettesReducer from "./resultPalettesFromExploreSlice";
 import profileDataUserSlice from "./profileDataUserSlice";
+import  allOfDataOfPaletteSlice  from "./paletteDetailsToRenderSlice";
+
 
 import {
   persistStore,
@@ -18,6 +20,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
+
 const persistConfig = {
   key: "root",
   version: 1,
@@ -30,6 +33,7 @@ const rootReducer = combineReducers({
   darkmode: darkModeReducer,
   explorePalettes: explorePalettesReducer,
   profileDataUser:profileDataUserSlice,
+  allDataOfPalette: allOfDataOfPaletteSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
