@@ -44,6 +44,7 @@ const ColorBox = ({ color, index, colorPalette }) => {
     hexPalette,
     rgb: {},
   } = color;
+  const dispatch = useDispatch();
 
   const genColor = (e) => {
     const pos = e.target.getAttribute("position");
@@ -95,8 +96,10 @@ const ColorBox = ({ color, index, colorPalette }) => {
     } else {
       color.indexOfColor = pos;
       colorPalette[pos] = { hexPalette: hex, rgb: color, indexOfColor: color.indexOfColor };
+      
+      dispatch(saveData(colorPalette))
 
-      console.log(colorPalette)
+      console.log("changePosition: " + colorPalette)
     }
   }
 

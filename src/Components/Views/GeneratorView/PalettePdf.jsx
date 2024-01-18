@@ -4,7 +4,7 @@ import React from 'react'
 import { Document, Page, Text, View,  StyleSheet, Link, Rect, Svg, PDFViewer } from "@react-pdf/renderer";
 
 
-function PalettePdf(colors) {
+function PalettePdf({colors}) {
 
   
   console.log(colors)
