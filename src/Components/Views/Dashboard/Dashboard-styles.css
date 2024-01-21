@@ -1,0 +1,240 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --purple-color: #6c60ff;
+    --darkGray-color: #181818;
+    --purple-active-hover: #918ae2;
+    --darkGray-active-hover: #2f2f2f;
+    --error-color: #db324d;
+    --auth-container-background: #ededed;
+  }
+
+  .dashboard-container{
+    border: 2px solid blue;
+    min-height: 92.8vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    margin: 0;
+  }
+
+  
+
+
+  .dashboard-container .column-two{
+    width: 100%;
+    border:2px solid green;
+    height: 90vh;
+    padding: .9375rem;
+}
+
+.dashboard-container .column-two .title{
+    font-size: 35px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.dashboard-container .column-two .title h3{
+    font-size: 28px;
+    font-weight: 900;
+    text-align: center;
+    color:rgb(80, 80, 80);
+}
+
+.dashboard-container .column-two .grid-container{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+ justify-items: center;
+    max-height: 10%;
+    overflow-y: auto;
+    grid-gap: 10px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-top:2rem;
+}
+
+.grid-container .color-palette{
+    border:2px solid orange;
+    height: 10rem;
+    width: 350px;
+    margin-bottom: .75rem;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+  .grid-container::-webkit-scrollbar {
+  width: 0.5em;
+  background-color: transparent;
+}
+
+.grid-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+@media (max-width: 500px) {
+  .grid-container {
+    grid-template-columns: repeat(1,1fr);
+    overflow-x: hidden;
+  }
+
+  .dashboard-container .column-two .grid-container .color-palette{
+    border:2px solid orange;
+    height: 11rem;
+    width: 100%;
+    margin-bottom: .75rem;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+}
+
+@media (min-width: 56.25rem) {
+  .dashboard-container .column-two .grid-container {
+      border:2px solid rgb(36, 36, 68);
+      grid-template-columns:repeat(2,1fr);
+  }
+}
+
+
+@media (min-width: 72rem) {
+  .dashboard-container .column-two .grid-container {
+      border:2px solid rgb(36, 36, 68);
+      grid-template-columns:repeat(3,1fr);
+  }
+}
+
+.MuiTab-root{
+  border:1px solid black;
+}
+
+.MuiTab-textColorPrimary{
+  color:blue
+}
+
+.tabs-container, ::before, ::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.tabs-container {
+  background: #fff;
+}
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-height: 82vh;
+  margin-top: 1rem;
+  background: transparent;
+  word-break: break-all;
+  border-top: none;
+  box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+  border-bottom-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  border:2px solid rgb(13, 255, 0);
+  
+}
+
+.bloc-tabs {
+  display: flex;
+}
+.tabs {
+  padding: 15px;
+  text-align: center;
+  width: 50%;
+  background: #eeeeee;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.274);
+  box-sizing: content-box;
+  position: relative;
+  outline: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  font-weight: bold;
+}
+.tabs:not(:last-child){
+  border-right: 1px solid rgba(0, 0, 0, 0.274);
+}
+
+
+.tabs-container button {
+  border: none;
+  
+}
+.tabs-container {
+  flex-grow : 1;
+  
+}
+.tabs-container .content {
+  background: white;
+  padding: 10px;
+  width: 100%;
+  max-height: 78vh;
+  display: none;
+ overflow-y: auto;
+
+}
+.tabs-container .content h2 {
+  padding: 0px 0 5px 0px;
+}
+.tabs-container .content hr {
+  width: 100px;
+  height: 2px;
+  background: #222;
+  margin-bottom: 5px;
+}
+.tabs-container .content p {
+  width: 100%;
+  height: 100%;
+}
+.tabs-container .active-content {
+  display: block;
+}
+
+.tabs-container .content::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.tabs-container .content::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+.tabs-container .content::-webkit-scrollbar-button:increment,
+.tabs-container .content::-webkit-scrollbar-button {
+  display: none;
+}
+
+.tabs-container .content::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.tabs-container .content::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+
+.tabs-container .content::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.tab-btn{
+  font-weight: bold;
+  background-color: #eeeeee;
+  border:1px solid gray
+}
+
+.active-btn{
+  background-color: var(--purple-color);
+  border:0.2px solid gray;
+  color:white
+}
+
+.css-vupmbb-MuiButtonBase-root-MuiFab-root-MuiSpeedDial-fab{
+background-color:green;
+}

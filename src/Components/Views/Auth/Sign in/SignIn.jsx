@@ -8,6 +8,7 @@ import SignInForm from "./SignInForm";
 
 //css
 import "../auth-styles.css";
+import { Grid } from "@mui/material";
 
 const Signin = () => {
   const isMobile = useMobile();
@@ -17,6 +18,7 @@ const Signin = () => {
       <div className="auth-body">
         {!isMobile ? (
           <>
+            
             <SignInForm />
             <img
               src="https://i.ibb.co/jJjGSPq/undraw-Add-color-re-buro.png"
@@ -28,6 +30,8 @@ const Signin = () => {
             <SignInForm />
           </>
         )}
+
+        
       </div>
     </>
   );

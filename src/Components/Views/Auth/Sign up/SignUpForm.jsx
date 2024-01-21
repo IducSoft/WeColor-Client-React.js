@@ -26,11 +26,14 @@ import { useSelector } from "react-redux";
 
 //Components
 import { SwalError } from "../../../../utils/Swal";
+import { checkPasswordStrength } from "../utilities/checkPasswordStrength";
 
-const { REACT_APP_API_DEV_URL } = process.env;
+//const url = import.meta.env.VITE_DEV_URL;
+
+const url = "https://wecolor-api-rest.onrender.com/api";
 
 const SignUpForm = () => {
-  const url = REACT_APP_API_DEV_URL;
+  //const url = REACT_APP_API_DEV_URL;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorSwal, setErrorSwal] = useState("");
@@ -52,14 +55,11 @@ const SignUpForm = () => {
       setErrorSwal(error.response?.data.message);
     }
   };
+  
 
   useEffect(() => {
     setErrorSwal("");
   }, [errorSwal]);
-
-  /* const setTokenToCookies = async (cookiesToken) => {
-    Cookies.set("we_color_token", cookiesToken);
-  };*/
 
   //Validation Schema
   const required = "* Required field";
@@ -71,10 +71,22 @@ const SignUpForm = () => {
     email: Yup.string().email("Must be a valid email").required(required),
     password: Yup.string()
       .min(8, "Must be atleast 8 characters long")
-      .required(required),
+      .required(required)
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.")
+      .test('passwordStrength', 'La contraseña debe ser lo suficientemente fuerte', function (value) {
+        const { path, createError } = this;
+        //console.log(this.parent)
+        const strength = checkPasswordStrength(this.parent.password);
+        //console.log(strength)
+        if (strength !== 'Extremadamente difícil. ') {
+          createError({ path, message: 'La contraseña debe ser lo suficientemente fuerte' });
+        }
+        return true;
+      }),
     confirmPassword: Yup.string()
       .min(8, "Must be atleast 8 characters long")
       .required(required)
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.")
       .oneOf([Yup.ref("password")], "Passwords does not match"),
   });
 
@@ -121,6 +133,7 @@ const SignUpForm = () => {
                 name="name"
                 component={() => {
                   return <div className="error">{errors.name}</div>;
+                  
                 }}
               />
             </div>

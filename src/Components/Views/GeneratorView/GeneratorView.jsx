@@ -1,50 +1,46 @@
 import React, { useState, useEffect } from "react";
-
-//axios
-import axios from "axios";
-
-//Sweet Alert
-import Swal from "sweetalert2";
-
 //Copy to clipboard
 import copy from "copy-to-clipboard";
-
 //React icons
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsShare } from "react-icons/bs";
+//import { BsShare } from "react-icons/bs";
 import { BiCopy,BiUndo, BiRedo } from "react-icons/bi";
-import { MdDragHandle } from "react-icons/md";
+//import { MdDragIndicator } from "react-icons/md";
 import { IoMdRefresh } from "react-icons/io";
-
 //Material UI
 import Divider from '@mui/material/Divider';
-
 //Framer motion
 import { AnimatePresence, motion } from "framer-motion";
-
 //React hot toast
 import { toast, Toaster } from "react-hot-toast";
-
 //Css
 import "./GeneratorView-styles.css";
-
 //Hooks 
 import useMobile from "../../../Hooks/useMobile"
+//Dnd-kit
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
+
+//Redux
+import { useDispatch } from "react-redux";
+import { saveData } from "../../../redux/PaletteToPdfSlice.js"
 //Components
 import BasicMenu from "./BasicMenu.jsx";
-import Modal from "../../../utils/Modal.jsx"
+import Modal from "../../../utils/Modal.jsx";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { deleteDataPalette } from "../../../redux/paletteDetailsToRenderSlice.js";
 
-const { REACT_APP_API_DEV_URL } = process.env;
 
 const ColorBox = ({ color, index, colorPalette }) => {
   const [colorOfColorBox, setColorOfBox] = useState(null);
-
-
   const {
     hexPalette,
     rgb: {},
   } = color;
+  const dispatch = useDispatch();
 
   const genColor = (e) => {
     const pos = e.target.getAttribute("position");
@@ -91,25 +87,29 @@ const ColorBox = ({ color, index, colorPalette }) => {
 
   function changePosition(colorPalette, pos, hex, color) {
     if (pos == null) {
+      console.log("pos null")
       return;
     } else {
-      colorPalette[pos] = { hexPalette: hex, rgb: color };
+      color.indexOfColor = pos;
+      colorPalette[pos] = { hexPalette: hex, rgb: color, indexOfColor: color.indexOfColor };
+      
+      dispatch(saveData(colorPalette))
+
+      console.log("changePosition: " + colorPalette)
     }
   }
 
-
-
+  
   return (
     <>
       <Toaster position="bottom-center" />
       <div
-        style={{
+         style={{
           backgroundColor:
-            colorOfColorBox == null ? hexPalette : colorOfColorBox.hex,
-        }}
+          colorOfColorBox == null ? hexPalette : colorOfColorBox.hex}}
         className="color-box"
       >
-        <h1>
+        <h1 style={{fontSize:"28px"}}>
           {colorOfColorBox == null
             ? hexPalette.toUpperCase()
             : colorOfColorBox.hex.toUpperCase()}
@@ -128,11 +128,6 @@ const ColorBox = ({ color, index, colorPalette }) => {
             }}
             onClick={handleCopy}
           />
-          <MdDragHandle
-            style={{
-              cursor: "pointer",
-            }}
-          />
         </div>
       </div>
     </>
@@ -141,97 +136,104 @@ const ColorBox = ({ color, index, colorPalette }) => {
 
 const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
-  const url = REACT_APP_API_DEV_URL;
-  const [colorPalette, setColorPalette] = useState("");
+  const url = import.meta.env.VITE_PROD_URL;
+  const [colorPalette, setColorPalette] = useState([]);
+  const dispatch = useDispatch();
   const isMobile = useMobile()
-  const [modalOpen, setModalOpen]=useState(false);
-  
+  const [modalOpen, setModalOpen] = useState(false);
+  const {allOfDataOfPalette} = useSelector((state) => state.allDataOfPalette);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const arrayOfColors = [];
 
+
+    const arrayOfColors = [];
     const min = 0;
     const max = 255;
 
-    let colorOne = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-    let colorTwo = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-    let colorThree = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-    let colorFour = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-    let colorFive = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-    let colorSix = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-    let colorSeven = {
-      red: Math.round(Math.random() * (max - min) + min),
-      green: Math.round(Math.random() * (max - min) + min),
-      blue: Math.round(Math.random() * (max - min) + min),
-    };
-
-    const hexOne = transformaRgbAHex(
-      colorOne.red,
-      colorOne.green,
-      colorOne.blue
-    );
-    const hexTwo = transformaRgbAHex(
-      colorTwo.red,
-      colorTwo.green,
-      colorTwo.blue
-    );
-    const hexThree = transformaRgbAHex(
-      colorThree.red,
-      colorThree.green,
-      colorThree.blue
-    );
-    const hexFour = transformaRgbAHex(
-      colorFour.red,
-      colorFour.green,
-      colorFour.blue
-    );
-    const hexFive = transformaRgbAHex(
-      colorFive.red,
-      colorFive.green,
-      colorFive.blue
-    );
-    const hexSix = transformaRgbAHex(
-      colorSix.red,
-      colorSix.green,
-      colorSix.blue
-    );
-    const hexSeven = transformaRgbAHex(
-      colorSeven.red,
-      colorSeven.green,
-      colorSeven.blue
-    );
-
-    arrayOfColors.push({ hexPalette: hexOne, rgb: colorOne });
-    arrayOfColors.push({ hexPalette: hexTwo, rgb: colorTwo });
-    arrayOfColors.push({ hexPalette: hexThree, rgb: colorThree });
-    arrayOfColors.push({ hexPalette: hexFour, rgb: colorFour });
-    arrayOfColors.push({ hexPalette: hexFive, rgb: colorFive });
-    arrayOfColors.push({ hexPalette: hexSix, rgb: colorSix });
-    arrayOfColors.push({ hexPalette: hexSeven, rgb: colorSeven });
+    if(!isObjectEmpty(allOfDataOfPalette)){
+      arrayOfColors.push(...allOfDataOfPalette.colors)
+    }else{
+      let colorOne = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+      let colorTwo = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+      let colorThree = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+      let colorFour = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+      let colorFive = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+      let colorSix = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+      let colorSeven = {
+        red: Math.round(Math.random() * (max - min) + min),
+        green: Math.round(Math.random() * (max - min) + min),
+        blue: Math.round(Math.random() * (max - min) + min),
+      };
+  
+      const hexOne = transformaRgbAHex(
+        colorOne.red,
+        colorOne.green,
+        colorOne.blue
+      );
+      const hexTwo = transformaRgbAHex(
+        colorTwo.red,
+        colorTwo.green,
+        colorTwo.blue
+      );
+      const hexThree = transformaRgbAHex(
+        colorThree.red,
+        colorThree.green,
+        colorThree.blue
+      );
+      const hexFour = transformaRgbAHex(
+        colorFour.red,
+        colorFour.green,
+        colorFour.blue
+      );
+      const hexFive = transformaRgbAHex(
+        colorFive.red,
+        colorFive.green,
+        colorFive.blue
+      );
+      const hexSix = transformaRgbAHex(
+        colorSix.red,
+        colorSix.green,
+        colorSix.blue
+      );
+      const hexSeven = transformaRgbAHex(
+        colorSeven.red,
+        colorSeven.green,
+        colorSeven.blue
+      );
+  
+      arrayOfColors.push({ hexPalette: hexOne, rgb: colorOne, indexOfColor:0 });
+      arrayOfColors.push({ hexPalette: hexTwo, rgb: colorTwo, indexOfColor:1 });
+      arrayOfColors.push({ hexPalette: hexThree, rgb: colorThree, indexOfColor:2 });
+      arrayOfColors.push({ hexPalette: hexFour, rgb: colorFour, indexOfColor:3 });
+      arrayOfColors.push({ hexPalette: hexFive, rgb: colorFive, indexOfColor:4 });
+      arrayOfColors.push({ hexPalette: hexSix, rgb: colorSix, indexOfColor:5 });
+      arrayOfColors.push({ hexPalette: hexSeven, rgb: colorSeven, indexOfColor:6 });
+    }
 
     function transformaRgbAHex(red, green, blue) {
       let hex = {
@@ -243,19 +245,35 @@ const GeneratorView = () => {
     }
 
     setColorPalette(prepareColorPalette(arrayOfColors));
+
+    console.log("HGELO")
     console.log(colorPalette);
-    return () => {};
+    //console.log(colorPalette);
+    return () => { dispatch(deleteDataPalette()) };
   }, [changeColors]);
+
+
+  const isObjectEmpty = (objectName) => {
+    return Object.keys(objectName).length === 0 && objectName.constructor === Object;
+  }
 
 
   const prepareColorPalette = (palette) => {
     const colors = palette.splice(0, 5);
+    dispatch(saveData(colors))
     return colors;
   };
 
-  const savePalette = async ()=>{
-    
+  const handleDragEnd =(e)=>{
+
+
   }
+
+  const handleDragStart = () =>{
+    console.log("START")
+  }
+
+
 
   const handleOpenAndCloseModal = ()=>{
     setModalOpen(!modalOpen)
@@ -273,7 +291,7 @@ const GeneratorView = () => {
 
   return (
     <>
-      <div className="generator-container">
+      <div className="generator-container" id="generator-container">
         {modalOpen?(
         <AnimatePresence>
            <motion.div
@@ -286,7 +304,7 @@ const GeneratorView = () => {
               damping: 20
             }}
           >
-          <Modal handleOpenAndCloseModal={handleOpenAndCloseModal} />
+          <Modal colorPalette={colorPalette} handleOpenAndCloseModal={handleOpenAndCloseModal} />
           </motion.div>
         </AnimatePresence>
         ):(<></>)}
@@ -303,19 +321,18 @@ const GeneratorView = () => {
             <BiRedo/>
      
             <Divider orientation="vertical"  flexItem />
-            <span>
-            <AiOutlineHeart style={{alignSelf:"center",paddingTop:"2px", fontSize:"25px"}} onClick={handleOpenAndCloseModal} />
+            <span style={{cursor:"pointer"}} onClick={handleOpenAndCloseModal} >
+            <AiOutlineHeart style={{alignSelf:"center",paddingTop:"2px", fontSize:"25px"}} />
               Save
             </span>
               <Divider orientation="vertical"  flexItem />
             <span style={{width:"30%"}} >
-              <BsShare style={{alignSelf:"center", paddingTop:"2px",fontSize:"25px"}} />
               <BasicMenu/>
             </span>
           </div>
         </div>
-        <div className="generator-box">
-          {(colorPalette.length === 0 ? [] : colorPalette).map(
+          <div className="generator-box">
+          {(colorPalette).map(
             (color, index) => {
               return (
                 <ColorBox

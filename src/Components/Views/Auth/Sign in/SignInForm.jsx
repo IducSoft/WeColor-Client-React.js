@@ -32,10 +32,11 @@ import { useSelector } from "react-redux";
 import { SwalError } from "../../../../utils/Swal";
 import SimpleBackDrop from "../../../../utils/SimpleBackDrop";
 
-const { REACT_APP_API_DEV_URL } = process.env;
+//const url = import.meta.env.VITE_DEV_URL;
 
 const SignInForm = () => {
-  const url = REACT_APP_API_DEV_URL;
+
+  const url = "https://wecolor-api-rest.onrender.com/api";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { darkmode } = useSelector((state) => state.darkmode);
@@ -47,7 +48,6 @@ const SignInForm = () => {
     const { email, password } = user;
 
     dispatch(loginStart());
-
     try {
       const userLogged = await axios.post(
         `${url}/auth/signin`,
@@ -55,10 +55,10 @@ const SignInForm = () => {
           email,
           password,
         },
-        {
-          withCredentials: true,
-          credentials: "include",
-        }
+        //{
+          //withCredentials: true,
+          //credentials: "include",
+        //}
       );
 
       dispatch(loginSuccess(userLogged.data.user));
@@ -106,10 +106,12 @@ const SignInForm = () => {
   const required = "* Required field";
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Must be a valid email").required(required),
+    email: Yup.string().email("Must be a valid email")
+    .required(required),
     password: Yup.string()
-      .min(8, ",Must be atleast 8 characters long")
-      .required(required),
+    .min(8, ",Must be atleast 8 characters long")
+    .required(required)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."),
   });
 
   return (
@@ -130,7 +132,6 @@ const SignInForm = () => {
           onSubmit={(values, { resetForm }) => {
             resetForm();
             let user = {};
-
             user = {
               email: values.email,
               password: values.password,
