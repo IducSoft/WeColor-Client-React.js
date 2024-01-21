@@ -21,6 +21,11 @@ import useMobile from "../../../Hooks/useMobile"
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
+
+//Redux
+import { useDispatch } from "react-redux";
+import { saveData } from "../../../redux/PaletteToPdfSlice.js"
 //Components
 import BasicMenu from "./BasicMenu.jsx";
 import Modal from "../../../utils/Modal.jsx";
@@ -35,6 +40,7 @@ const ColorBox = ({ color, index, colorPalette }) => {
     hexPalette,
     rgb: {},
   } = color;
+  const dispatch = useDispatch();
 
   const genColor = (e) => {
     const pos = e.target.getAttribute("position");
@@ -86,8 +92,10 @@ const ColorBox = ({ color, index, colorPalette }) => {
     } else {
       color.indexOfColor = pos;
       colorPalette[pos] = { hexPalette: hex, rgb: color, indexOfColor: color.indexOfColor };
+      
+      dispatch(saveData(colorPalette))
 
-      console.log(colorPalette)
+      console.log("changePosition: " + colorPalette)
     }
   }
 
@@ -130,6 +138,7 @@ const GeneratorView = () => {
   const [changeColors, setChangeColors] = useState(false);
   const url = import.meta.env.VITE_PROD_URL;
   const [colorPalette, setColorPalette] = useState([]);
+  const dispatch = useDispatch();
   const isMobile = useMobile()
   const [modalOpen, setModalOpen] = useState(false);
   const {allOfDataOfPalette} = useSelector((state) => state.allDataOfPalette);
@@ -236,6 +245,9 @@ const GeneratorView = () => {
     }
 
     setColorPalette(prepareColorPalette(arrayOfColors));
+
+    console.log("HGELO")
+    console.log(colorPalette);
     //console.log(colorPalette);
     return () => { dispatch(deleteDataPalette()) };
   }, [changeColors]);
@@ -248,6 +260,7 @@ const GeneratorView = () => {
 
   const prepareColorPalette = (palette) => {
     const colors = palette.splice(0, 5);
+    dispatch(saveData(colors))
     return colors;
   };
 

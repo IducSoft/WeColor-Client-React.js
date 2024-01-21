@@ -4,8 +4,8 @@ import paletteReducer from "./paletteSlice";
 import darkModeReducer from "./darkModeSlice";
 import explorePalettesReducer from "./resultPalettesFromExploreSlice";
 import profileDataUserSlice from "./profileDataUserSlice";
+import PaletteToPdfSliceReducer from "./PaletteToPdfSlice";
 import  allOfDataOfPaletteSlice  from "./paletteDetailsToRenderSlice";
-
 
 import {
   persistStore,
@@ -33,6 +33,7 @@ const rootReducer = combineReducers({
   darkmode: darkModeReducer,
   explorePalettes: explorePalettesReducer,
   profileDataUser:profileDataUserSlice,
+  paletteForPdf: PaletteToPdfSliceReducer
   allDataOfPalette: allOfDataOfPaletteSlice,
 });
 
