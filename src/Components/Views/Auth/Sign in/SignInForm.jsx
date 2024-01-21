@@ -106,10 +106,12 @@ const SignInForm = () => {
   const required = "* Required field";
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Must be a valid email").required(required),
+    email: Yup.string().email("Must be a valid email")
+    .required(required),
     password: Yup.string()
-      .min(8, ",Must be atleast 8 characters long")
-      .required(required),
+    .min(8, ",Must be atleast 8 characters long")
+    .required(required)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, "It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character."),
   });
 
   return (
